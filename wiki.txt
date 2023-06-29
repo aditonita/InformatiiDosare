@@ -1,0 +1,83 @@
+https://stackoverflow.com/questions/17529276/how-to-fill-and-submit-a-web-form-on-a-third-party-website-using-windows-applica
+https://stackoverflow.com/questions/26857/how-do-you-programmatically-fill-in-a-form-and-post-a-web-page
+https://social.msdn.microsoft.com/Forums/vstudio/en-US/56510f9e-b178-4e54-a2aa-654daf6865dd/how-to-fill-a-web-form-and-submit-it?forum=csharpgeneral
+https://www.codeproject.com/Questions/127717/Fill-web-form
+https://www.c-sharpcorner.com/uploadfile/mahesh/webbrowser-control-in-c-sharp-and-windows-forms/
+https://www.c-sharpcorner.com/article/web-browser-in-C-Sharp-and-VB-Net/
+https://stackoverflow.com/questions/4015324/send-http-post-request-in-net
+https://stackoverflow.com/questions/41778074/how-to-get-html-page-source-by-c-sharp
+https://www.codeproject.com/Questions/204778/Get-HTML-code-from-a-website-C
+
+https://stackoverflow.com/questions/12087367/get-href-value-from-html-anchor-tag-c-sharp
+https://dotnetcodr.com/2014/12/05/finding-all-href-values-in-a-html-string-with-c-net/
+https://www.codeproject.com/Questions/1104057/How-to-assign-href-to-anchor-tag-in-codebehind-Csh
+
+https://stackoverflow.com/questions/6704585/get-attribute-value-from-c-xpath
+
+https://stackoverflow.com/questions/6356424/best-way-to-parse-an-html-table-into-a-csv
+https://www.example-code.com/csharp/html_table_to_csv.asp
+
+https://dev.to/popoolatopzy/how-to-convert-html-table-to-csv-file-14p3
+https://products.aspose.com/cells/net/conversion/html-to-csv/
+
+https://www.aspsnippets.com/questions/204925/Export-HTML-Table-to-CSV-file-in-ASPNet-Core-MVC/
+
+
+https://stackoverflow.com/questions/71952251/problem-httpclient-getstringasyncuri-load
+
+16944/215/2020
+
+https://portal.just.ro/SitePages/cautare.aspx?k=16944/215/2020
+
+curl "https://portal.just.ro/SitePages/cautare.aspx?k=16944/215/2020" -o xml2.html
+
+<a href="../215/SitePages/Dosar.aspx?id_dosar=21500000000509676&amp;id_inst=215" title="Informatii dosar">16944/215/2020</a>
+
+
+https://delta.blue/blog/deploy-run-nodejs-application-tutorial/
+https://www.w3schools.com/nodejs/nodejs_modules.asp
+https://nodejs.org/en/docs
+
+https://github.com/nullivex/nodist/releases
+https://github.com/nullivex/nodist
+https://github.com/coreybutler/nvm-windows
+https://docs.npmjs.com/using-npm-packages-in-your-projects
+https://docs.npmjs.com/cli/v9/commands
+
+https://angular.io/guide/standalone-components
+
+https://www.google.com/search?q=build+standalone+exe+visual+studio&source=hp&ei=LyiQZOXIM4iExc8Pp9eXsAQ&iflsig=AOEireoAAAAAZJA2P_wOJjUHktBTNIg--lS_D03BhZPb&oq=build+stand&gs_lcp=Cgdnd3Mtd2l6EAMYATIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBggAEBYQHjIGCAAQFhAeMgYIABAWEB4yBggAEBYQHjIGCAAQFhAeMgYIABAWEB46CwgAEIAEELEDEIMBOg4ILhCABBCxAxDHARDRAzoLCAAQigUQsQMQgwE6EQguEIAEELEDEIMBEMcBEK8BOhEILhCABBCxAxCDARDHARDRAzoICC4QgAQQsQM6CAgAEIAEELEDOg4ILhCABBCxAxCDARDUAjoFCC4QgAQ6CAguEIoFELEDOhcILhCABBCxAxCDARDHARCvARCYBRCZBToLCC4QgAQQxwEQrwE6DgguEIAEEMkDEMcBENEDOggIABCABBCSAzoOCC4QgAQQxwEQrwEQ1AI6BwgAEIAEEApQAFitF2CaSmgBcAB4AIABwgGIAakOkgEEMC4xMpgBAKABAQ&sclient=gws-wiz#fpstate=ive&vld=cid:5e040182,vid:ZvTgq79Nl5c
+
+**************************************************
+Microsoft.Office.Interop.Excel.Application xlsApp = new Microsoft.Office.Interop.Excel.Application();
+Workbook wb = xlsApp.Workbooks.Add(XlSheetType.xlWorksheet);
+Worksheet ws = (Worksheet)xlsApp.ActiveSheet;
+//xlsApp.Visible = true;
+xlsApp.Visible = false;
+ws.Cells[1,1] = "First Name";
+ws.Cells[1,2] = "Last Name";
+ws.Cells[2,1] = "Mary";
+ws.Cells[2,2] = "Poppins";
+ws.Cells[3,1] = "Grace";
+ws.Cells[3,2] = "Kelly";
+
+***********************
+https://www.codingame.com/playgrounds/9014/read-write-excel-file-with-oledb-in-c-without-interop
+https://www.codeproject.com/Questions/412468/Excel-csharp-net-retrieving-data-without-opening-e
+https://ironsoftware.com/csharp/excel/tutorials/create-excel-file-net/
+https://www.codeproject.com/Articles/1088970/Read-Write-Excel-file-with-OLEDB-in-Csharp-without
+https://learn.microsoft.com/en-us/answers/questions/536933/c-reading-excel-data-using-oledb-does-not-work-wel
+
+https://www.youtube.com/watch?v=h-Ojc_Er6yc
+https://www.c-sharpcorner.com/blogs/creating-excel-file-using-interop-services1
+http://csharp.net-informations.com/excel/csharp-create-excel.htm
+https://www.educative.io/answers/how-to-create-an-excel-file-with-c-sharp
+https://stackoverflow.com/questions/41605649/i-want-to-create-xlsx-excel-file-from-c-sharp
+https://github.com/RomanPavelko/SwiftExcel/tree/master/SwiftExcel
+
+=======================
+https://www.guru99.com/using-contains-sbiling-ancestor-to-find-element-in-selenium.html
+https://pythonexamples.org/python-selenium-get-next-sibling-element/
+https://stackoverflow.com/questions/18152726/getting-next-element-in-selenium
+https://www.guru99.com/xpath-selenium.html
+
