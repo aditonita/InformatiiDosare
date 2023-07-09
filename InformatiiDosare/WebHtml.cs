@@ -14,17 +14,17 @@ namespace InformatiiDosare
 {
     internal class WebHtml
     {
-//        public String HtmlPage { set; get; }
-//        public WebHtml(string uri)
-//        {
-//            HtmlPage = GetDosarUri(uri);
-//        }
-//#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-//        public WebHtml()
-//#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-//        {
-//            
-//        }
+        //        public String HtmlPage { set; get; }
+        //        public WebHtml(string uri)
+        //        {
+        //            HtmlPage = GetDosarUri(uri);
+        //        }
+        //#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        //        public WebHtml()
+        //#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        //        {
+        //            
+        //        }
         public string GetDosarUri(string uri)
         {
             string data = "";
@@ -42,8 +42,8 @@ namespace InformatiiDosare
             {
                 if ((element.GetAttribute("title").ToLower().Contains("ii dosar")))
                 {
-                    data= element.GetAttribute("href").ToString();
-                    
+                    data = element.GetAttribute("href").ToString();
+
                 }
             }
             driver.Close();
@@ -64,18 +64,74 @@ namespace InformatiiDosare
             //var driver = new ChromeDriver();
             driver.Url = uri;
             string pageSource = "";
-            
-            foreach(var element in driver.FindElements(By.ClassName("ms-vb")))
+
+            foreach (var element in driver.FindElements(By.TagName("a")))
             {
                 //pageSource = pageSource + element.Text + "\n";
-                //Console.WriteLine(pageSource);
-                if(element.Text.Contains("Data") || element.Text.Contains("unic"))
+
+                string nameTag = element.GetAttribute("Name") ?? "";
+                //Console.WriteLine(  nameTag + nameTag.Length.ToString());
+
+                //******
+                //int[] sedinte = new int[] { 95, 101, 100, 105, 110, 99, 101 };
+                //if (nameTag != "" && nameTag.Length == sedinte.Length)
+                //if (nameTag != "" && nameTag.Length == 8)
+                //{
+                //StringBuilder sedinte = new StringBuilder().Append('S').Append((char)101).Append((char)100).Append((char)105).Append((char)110).Append('t').Append((char)101);
+                //Console.WriteLine(new StringBuilder(nameTag).Equals(sedinte));
+                //Console.WriteLine(nameTag);
+                //Console.WriteLine(  new StringBuilder(nameTag).ToString());
+
+                //for (int i = 0; i < nameTag.Length;i++) 
+                //{
+                //     Console.WriteLine((byte)nameTag.ToLower().ToCharArray()[i]);
+                //     Console.WriteLine((byte)nameTag.ToLower().ToCharArray()[i] == sedinte[i]);
+                //Console.WriteLine((byte)nameTag.ToCharArray()[i]);
+
+                //}
+
+
+                //Console.WriteLine((byte)nameTag.ToLower().ToCharArray()[0]);
+                //Console.WriteLine((byte)nameTag.ToLower().ToCharArray()[1]);
+                //Console.WriteLine((byte)nameTag.ToLower().ToCharArray()[2]);
+                //Console.WriteLine((byte)nameTag.ToLower().ToCharArray()[3]);
+                //Console.WriteLine((byte)nameTag.ToLower().ToCharArray()[4]);
+                //Console.WriteLine((byte)nameTag.ToLower().ToCharArray()[5]);
+                //Console.WriteLine((byte)nameTag.ToLower().ToCharArray()[6]);
+
+                //Console.WriteLine((byte)nameTag.ToLower().ToCharArray()[0] == 95);
+                //}
+
+
+
+                //if(element.Text.Contains("Data") || element.Text.Contains("unic"))
+                //if (element.GetAttribute("name").ToLower().Contains("edin"))
+                //Console.WriteLine(Tag.IsTagName(nameTag));
+                if (Tag.IsTagName(nameTag, TagName.TAG_NAME_SEDINTE))
                 {
-                    pageSource += element.Text + "\t";
+                    Encoding.ASCII.GetBytes(nameTag).ToList().ForEach(s => Console.Write(s + "\t"));
+                    Console.WriteLine();
+                    Encoding.UTF8.GetBytes(nameTag).ToList().ForEach(s => Console.Write(s + "\t"));
+                    Console.WriteLine();
+                    Encoding.Unicode.GetBytes(nameTag).ToList().ForEach(s => Console.Write(s + "\t"));
+                    Console.WriteLine();
+                    Encoding.ASCII.GetBytes("Sedinte").ToList().ForEach(s => Console.Write(s + "\t"));
+                    Console.WriteLine();
+                    Encoding.UTF8.GetBytes("Sedinte").ToList().ForEach(s => Console.Write(s + "\t"));
+                    Console.WriteLine();
+                    Encoding.Unicode.GetBytes("Sedinte").ToList().ForEach(s => Console.Write(s + "\t"));
+                    Console.WriteLine();
+
+
+                    pageSource += element.Text + "\n";
+
+                    pageSource += element.FindElement(By.XPath("//parent::h3")).FindElement(By.XPath("//parent::div")).FindElement(By.XPath("//table[3]/tbody/tr/td/div/div/table/tbody/tr/td/b/a")).Text + "\n";
+                    pageSource += element.FindElement(By.XPath("//parent::h3")).FindElement(By.XPath("//parent::div")).FindElement(By.XPath("//table[3]/tbody/tr/td/div/div/table/tbody/tr[2]/td")).Text + "\n";
+
                 }
                 else
                 {
-                    pageSource = pageSource + element.Text + "\n";
+                    //pageSource = pageSource + element.Text + "\n";
                 }
             }
             pageSource += "\n" + "============================================";
@@ -85,6 +141,31 @@ namespace InformatiiDosare
             driver.Quit();
             driver.Dispose();
             return data;
+        }
+
+        public static void GetTagsByByte(string uri)
+        {
+            ChromeOptions options = new ChromeOptions();
+            options.AddArgument("--headless");
+            ChromeDriverService service = ChromeDriverService.CreateDefaultService();
+            service.SuppressInitialDiagnosticInformation = true;
+            var driver = new ChromeDriver(service, options);
+
+            driver.Url = uri;
+
+            foreach (var element in driver.FindElements(By.TagName("a")))
+            {
+                if (element.GetAttribute("name") != null || element.GetAttribute("name") != "")
+                {
+                    Console.Write(element.GetAttribute("name="));
+                    foreach (char c in element.GetAttribute("name").ToCharArray())
+                    {
+                        Console.Write(c);
+                        Console.Write(',');
+                    }
+                    Console.WriteLine("======================================================");
+                }
+            }
         }
     }
 }
