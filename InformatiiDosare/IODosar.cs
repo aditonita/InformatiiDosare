@@ -39,7 +39,7 @@ namespace InformatiiDosare
                 string? line;
                     while ((line = sr.ReadLine()) != null)
                     {
-                        uris.Add(line);
+                    uris.Add(line.Split(delim)[1]);
                     }
             }
 

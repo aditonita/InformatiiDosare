@@ -42,7 +42,17 @@ namespace InformatiiDosare
             {
                 if ((element.GetAttribute("title").ToLower().Contains("ii dosar")))
                 {
-                    data= element.GetAttribute("href").ToString();
+                    
+                    //73,110,102,111,114,109,97,99,105,105,32,100,111,115,97,114
+                    
+                    Console.WriteLine(element.GetAttribute("title"));
+                    foreach(char c in element.GetAttribute("title"))
+                    {
+                        Console.Write((byte)c);
+                        Console.WriteLine("\t");
+                    }
+                    Console.WriteLine("");
+                    data = element.GetAttribute("href").ToString();
                     
                 }
             }
