@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using HtmlAgilityPack;
 
 namespace InformatiiDosare
 {
@@ -25,6 +26,21 @@ namespace InformatiiDosare
 //        {
 //            
 //        }
+
+        public void GetLinkDosar(string nrDosar) 
+        {
+            var html = new HtmlWeb();
+            var htmlDoc = html.Load(nrDosar);
+            foreach (var node in htmlDoc.DocumentNode.SelectNodes("//a"))
+                {
+                var test = node.GetAttributeValue("title", "");
+                Console.WriteLine(test);
+                Console.WriteLine(test.Equals( "Informatii dosar"));
+                Console.WriteLine(node.GetAttributeValue("href",""));
+                //../299/SitePages/Dosar.aspx?id_dosar=29900000000992959&amp;id_inst=299
+                // "https://portal.just.ro/299/SitePages/Dosar.aspx?id_dosar=29900000000992959&id_inst=299"
+            }
+        }
         public string GetDosarUri(string uri)
         {
             string data = "";

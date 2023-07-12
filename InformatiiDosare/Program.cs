@@ -8,8 +8,9 @@ foreach(string line in IODosar.GetNrDosare("input"))
     
     SetUri setUri = new SetUri("https://portal.just.ro", line);
     string uri = setUri.Uri.ToString();
-    uri = new WebHtml().GetDosarUri(uri);
-    IODosar.SaveDosarData(new WebHtml().GetDosarData(uri));
+    new WebHtml().GetLinkDosar(uri);
+    //uri = new WebHtml().GetDosarUri(uri);
+    //IODosar.SaveDosarData(new WebHtml().GetDosarData(uri));
 }
 //string uri = setUri.Uri.ToString();
  
