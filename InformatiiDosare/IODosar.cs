@@ -13,7 +13,7 @@ namespace InformatiiDosare
             List<string> result = new List<string>();
             using (StreamReader sr = new StreamReader(file))
             {
-                string line;
+                string? line;
                 while ((line = sr.ReadLine()) != null)
                 {
                     result.Add(line);
