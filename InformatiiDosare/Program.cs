@@ -30,15 +30,22 @@ if (args.Length > 1)
             }
         }
     }
+    
 }
 else
 {
     //SetUri setUri = new SetUri("https://portal.just.ro", "16944/215/2020");
     foreach (string line in IODosar.GetNrDosare("input"))
     {
-        IODosar.SaveDosarData(line);
         SetUri setUri = new SetUri("https://portal.just.ro", line);
         string uri = setUri.Uri.ToString();
+        new WebHtml().GetLinkDosar(uri);
+        //uri = new WebHtml().GetDosarUri(uri);
+        //IODosar.SaveDosarData(new WebHtml().GetDosarData(uri));
+
+        IODosar.SaveDosarData(line);
+        //SetUri setUri = new SetUri("https://portal.just.ro", line);
+        //string uri = setUri.Uri.ToString();
         uri = new WebHtml().GetDosarUri(uri);
         IODosar.SaveDosarData(new WebHtml().GetDosarData(uri));
     }
