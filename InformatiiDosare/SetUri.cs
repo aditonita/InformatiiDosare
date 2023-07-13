@@ -9,9 +9,14 @@ namespace InformatiiDosare
     internal class SetUri
     {
         public String Uri { get; set; }
-        public SetUri(string uriFirst, string dosarNumar) 
+        public SetUri(string uriFirst, string dosarNumar)
         {
             Uri = uriFirst + "/SitePages/cautare.aspx?k=" + dosarNumar;
+        }
+
+        public static string PortalURI(string dosar)
+        {
+            return "https://portal.just.ro" + "/SitePages/cautare.aspx?k=" + dosar;
         }
     }
 }
