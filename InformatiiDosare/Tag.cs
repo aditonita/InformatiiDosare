@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using OpenQA.Selenium.Remote;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,23 +17,16 @@ namespace InformatiiDosare
     internal class Tag
     {
         static IConfiguration config = new ConfigurationBuilder()
-         .AddJsonFile($"appsettings.json")
+         .AddJsonFile(@"appsettings.json")
          .AddEnvironmentVariables()
          .Build();
-//        private static readonly byte[]? sedinte = config.GetSection("Sedinte").Get<byte[]>();
-
-        //public static readonly byte[] _SEDINTE = sedinte ?? Array.Empty<byte>();
-
+        static readonly byte[] INFORMATII_DOSAR = config.GetSection("Informatii dosar").Get<byte[]>() ?? Array.Empty<byte>();
         public static readonly byte[] SEDINTE = config.GetSection("Sedinte").Get<byte[]>() ?? Array.Empty<byte>();
         public static readonly byte[] INFORMATII_GENERALE = config.GetSection("Informatii generale").Get<byte[]>() ?? Array.Empty<byte>();
         public static readonly byte[] CAI_ATAC = config.GetSection("Cai atac").Get<byte[]>() ?? Array.Empty<byte>();
-
-
-//        public static readonly byte[] SEDINTE = new byte[] { 94, 101, 100, 105, 110, 99, 101 };
-//        public static readonly byte[] INFORMATII_GENERALE = new byte[] { 73, 110, 102, 111, 114, 109, 97, 99, 105, 105, 95, 103, 101, 110, 101, 114, 97, 108, 101 };
-//        public static readonly byte[] CAI_ATAC = new byte[] { 99, 97, 105, 32, 97, 116, 97, 99 };
-
-
+        public static readonly byte[] PARTI = config.GetSection("Parti").Get<byte[]>() ?? Array.Empty<byte>();
+        public static readonly string CAUTA_DOSAR = config.GetValue<string>("UriCautaDosar") ?? "";
+        public static readonly string LISTEAZA_DOSAR = config.GetValue<string>("UriListeazaDosar") ?? "";
         public static bool IsTagName(string name, TagName tagName)
         {
             switch (tagName)
@@ -66,6 +58,61 @@ namespace InformatiiDosare
                 return false;
             }
             return true;
+        }
+
+        internal static string GetAttributName(string nrDosar)
+        {
+            return new WebHtml().GetAttributesTitle(CAUTA_DOSAR + "k=" + nrDosar, "title");
+        }
+        internal static string? GetAttributName(string idInstanta, string idDosar)
+        {
+            return new WebHtml().GetAttributesTitle(LISTEAZA_DOSAR + "id_inst=" + idInstanta + "&id_dosar=" + idDosar, "name");
+        }
+
+        internal static bool HasTitle(string titleName)
+        {
+            int result = 0;
+            if (titleName.Length == INFORMATII_DOSAR.Length)
+            {
+                for (int i = 0; i < titleName.Length; i++)
+                {
+                    if ((byte)titleName.ToCharArray()[i] == INFORMATII_DOSAR[i])
+                    {
+                        result += 1;
+                    }
+                }
+            }
+            return (result == INFORMATII_DOSAR.Length);
+        }
+
+        internal Dictionary<string, string>? GetInformatiiDosar(string uri)
+        {
+            Dictionary<string, string>? dic = null;
+            Dictionary<string, string> info = new WebHtml().GetInformatiiDosar(uri);
+            if (dic != null)
+            {
+                dic.Add("informatiiGenerale", info["informatiiGenerale"]);
+                dic.Add("parti", info["parti"]);
+                dic.Add("sedinte", info["sedinte"]);
+                dic.Add("caiAtac", info["caiAtac"]);
+            }
+            return dic;
+        }
+
+        internal static bool HasAttribute(string name, byte[] attribute)
+        {
+            int result = 0;
+            if (name.Length == attribute.Length)
+            {
+                for (int i = 0; i < name.Length; i++)
+                {
+                    if ((byte)name.ToCharArray()[i] == attribute[i])
+                    {
+                        result += 1;
+                    }
+                }
+            }
+            return (result == attribute.Length);
         }
     }
 }
