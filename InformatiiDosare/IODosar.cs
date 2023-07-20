@@ -8,42 +8,80 @@ namespace InformatiiDosare
 {
     internal class IODosar
     {
-        public static List<string> GetNrDosare(string file)
+        public static void GetNrDosare(string infile, string outfile, char delim)
         {
-            List<string> result = new List<string>();
-            using (StreamReader sr = new StreamReader(file))
+            using (StreamReader sr = new StreamReader(infile))
             {
                 string? line;
                 while ((line = sr.ReadLine()) != null)
                 {
-                    result.Add(line);
+                    string uri = SetUri.PortalURI(line);
+                    IODosar.SaveUriDosare(line, new WebHtml().GetLinkDosar(uri), outfile, delim);
                 }
             }
-            return result;
         }
-
-        public static void SaveDosarData(string line, string output)
+        private static void SaveDosarData(string line, string output)
         {
-            //            string file = output + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day;
             using (StreamWriter sw = new StreamWriter(output, true))
             {
                 sw.WriteLine(line);
             }
         }
-
         internal static List<string> GetDosarURIs(string fileDosare, char delim)
         {
             List<string> uris = new();
             using (StreamReader sr = new StreamReader(fileDosare))
             {
                 string? line;
-                    while ((line = sr.ReadLine()) != null)
-                    {
+                while ((line = sr.ReadLine()) != null)
+                {
                     uris.Add(line.Split(delim)[1]);
-                    }
+                }
             }
 
             return uris;
+        }
+
+        private static void RemoveFile(string file)
+        {
+            if (File.Exists(file))
+            {
+                File.Delete(file);
+            }
+        }
+
+        internal static void SaveUriDosare(string nrDosar, string uriDosar, string output, char delim)
+        {
+            SaveDosarData(nrDosar + delim + uriDosar, output);
+        }
+
+        internal static void RemoveFiles(string outputFile, string informatiiGenerale, string parti, string sedinte, string caiAtac)
+        {
+            RemoveFile(outputFile);
+            RemoveFile(informatiiGenerale);
+            RemoveFile(parti);
+            RemoveFile(sedinte);
+            RemoveFile(caiAtac);
+        }
+
+        internal static void SaveInformatiiGenerale(string inFile, Dictionary<string,string> outFile, char delim)
+        {
+            using(StreamReader sr = new StreamReader(inFile))
+            {
+                string? line;
+                while((line =  sr.ReadLine()) != null)
+                {
+                    string[] cols = line.Split(delim);
+                    Dictionary<string,string>? getInformatiiDosar = new Tag().GetInformatiiDosar(cols[1]);
+                    if(getInformatiiDosar != null)
+                    {
+                        SaveDosarData(cols[0] + delim + getInformatiiDosar["informatiiGenerale"], outFile["informatiiGenerale"]);
+                        SaveDosarData(cols[0] + delim + getInformatiiDosar["parti"], outFile["parti"]);
+                        SaveDosarData(cols[0] + delim + getInformatiiDosar["sedinte"], outFile["sedinte"]);
+                        SaveDosarData(cols[0] + delim + getInformatiiDosar["caiAtac"], outFile["caiAtac"]);
+                    }
+                }
+            }
         }
     }
 }
