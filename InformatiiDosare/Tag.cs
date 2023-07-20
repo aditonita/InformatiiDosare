@@ -26,7 +26,11 @@ namespace InformatiiDosare
         public static readonly byte[] CAI_ATAC = config.GetSection("Cai atac").Get<byte[]>() ?? Array.Empty<byte>();
         public static readonly byte[] PARTI = config.GetSection("Parti").Get<byte[]>() ?? Array.Empty<byte>();
         public static readonly string CAUTA_DOSAR = config.GetValue<string>("UriCautaDosar") ?? "";
-        public static readonly string LISTEAZA_DOSAR = config.GetValue<string>("UriListeazaDosar") ?? "";
+        public static readonly string LISTEAZA_DOSAR = config.GetValue<string>("UriPortalJust") ?? "";
+        public static readonly string HEADER_INFORMATII_GENERALE = config.GetValue<string>("Header Informatii generale") ?? "";
+        public static readonly string HEADER_PARTI = config.GetValue<string>("Header Parti") ?? "";
+        public static readonly string HEADER_SEDINTE = config.GetValue<string>("Header Sedinte") ?? "";
+        public static readonly string HEADER_CAI_ATAC = config.GetValue<string>("Header Cai atac") ?? "";
         public static bool IsTagName(string name, TagName tagName)
         {
             switch (tagName)
@@ -66,7 +70,7 @@ namespace InformatiiDosare
         }
         internal static string? GetAttributName(string idInstanta, string idDosar)
         {
-            return new WebHtml().GetAttributesTitle(LISTEAZA_DOSAR + "id_inst=" + idInstanta + "&id_dosar=" + idDosar, "name");
+            return new WebHtml().GetAttributesTitle(LISTEAZA_DOSAR + "/" + idInstanta + "/SitePages/Dosar.aspx?" + "id_inst=" + idInstanta + "&id_dosar=" + idDosar, "name");
         }
 
         internal static bool HasTitle(string titleName)
@@ -84,21 +88,6 @@ namespace InformatiiDosare
             }
             return (result == INFORMATII_DOSAR.Length);
         }
-
-        internal Dictionary<string, string>? GetInformatiiDosar(string uri)
-        {
-            Dictionary<string, string>? dic = null;
-            Dictionary<string, string> info = new WebHtml().GetInformatiiDosar(uri);
-            if (dic != null)
-            {
-                dic.Add("informatiiGenerale", info["informatiiGenerale"]);
-                dic.Add("parti", info["parti"]);
-                dic.Add("sedinte", info["sedinte"]);
-                dic.Add("caiAtac", info["caiAtac"]);
-            }
-            return dic;
-        }
-
         internal static bool HasAttribute(string name, byte[] attribute)
         {
             int result = 0;

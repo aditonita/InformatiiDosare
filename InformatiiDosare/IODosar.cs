@@ -64,21 +64,25 @@ namespace InformatiiDosare
             RemoveFile(caiAtac);
         }
 
-        internal static void SaveInformatiiGenerale(string inFile, Dictionary<string,string> outFile, char delim)
+        internal static void SaveInformatiiGenerale(string inFile, Dictionary<string, string> outFile, char delim)
         {
-            using(StreamReader sr = new StreamReader(inFile))
+            SaveDosarData(Tag.HEADER_INFORMATII_GENERALE, outFile["informatiiGenerale"]);
+            SaveDosarData(Tag.HEADER_PARTI, outFile["parti"]);
+            SaveDosarData(Tag.HEADER_SEDINTE, outFile["sedinte"]);
+            SaveDosarData(Tag.HEADER_CAI_ATAC, outFile["caiAtac"]);
+            using (StreamReader sr = new StreamReader(inFile))
             {
                 string? line;
-                while((line =  sr.ReadLine()) != null)
+                while ((line = sr.ReadLine()) != null)
                 {
                     string[] cols = line.Split(delim);
-                    Dictionary<string,string>? getInformatiiDosar = new Tag().GetInformatiiDosar(cols[1]);
-                    if(getInformatiiDosar != null)
+                    Dictionary<string, string>? getInformatiiDosar = new WebHtml().GetInformatiiDosar(cols[0], cols[1]);
+                    if (getInformatiiDosar != null)
                     {
-                        SaveDosarData(cols[0] + delim + getInformatiiDosar["informatiiGenerale"], outFile["informatiiGenerale"]);
-                        SaveDosarData(cols[0] + delim + getInformatiiDosar["parti"], outFile["parti"]);
-                        SaveDosarData(cols[0] + delim + getInformatiiDosar["sedinte"], outFile["sedinte"]);
-                        SaveDosarData(cols[0] + delim + getInformatiiDosar["caiAtac"], outFile["caiAtac"]);
+                        SaveDosarData(getInformatiiDosar["informatiiGenerale"], outFile["informatiiGenerale"]);
+                        SaveDosarData(getInformatiiDosar["parti"], outFile["parti"]);
+                        SaveDosarData(getInformatiiDosar["sedinte"], outFile["sedinte"]);
+                        SaveDosarData(getInformatiiDosar["caiAtac"], outFile["caiAtac"]);
                     }
                 }
             }
