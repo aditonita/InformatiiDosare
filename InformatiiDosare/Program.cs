@@ -2,6 +2,7 @@
 
 using InformatiiDosare;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 /*arguments
  * --NrDosar
@@ -35,14 +36,20 @@ if (args.Length == 0)
         Environment.Exit(1);
     }
     IODosar.RemoveFiles(outputFile, informatiiGenerale, parti, sedinte, caiAtac);
+    if(!File.Exists(inputFile))
+    {
+        Console.WriteLine("[ERROR] - Fisierul " + inputFile + " nu exista. " +
+            "Creati fisierul inainte de a rula aplicatia. Fisierul contine pe fiecare line un numar de dosar. \nApasati orice tasta.");
+        Console.ReadKey();
+    }
     IODosar.GetNrDosare(inputFile, outputFile, delim);
-    IODosar.SaveInformatiiGenerale(outputFile, outFiles, delim);
     try
     {
         foreach (string dosarUri in IODosar.GetDosarURIs(outputFile, delim))
         {
             Console.WriteLine(dosarUri);
         }
+        IODosar.SaveInformatiiGenerale(outputFile, outFiles, delim);
     }
     catch (Exception ex)
     {

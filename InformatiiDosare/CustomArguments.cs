@@ -104,7 +104,10 @@ namespace InformatiiDosare
                 "InformatiiDosare.exe --NrDosar nnnn/tttt/yyyy" + Environment.NewLine +
                 "InformatiiDosare.exe --IdInstanta xxxxx --IdDosar yyyyyyyyyyyyyyy" + Environment.NewLine +
                 "1.  InformatiiDosare.exe" + Environment.NewLine +
-                "    Genereaza fisierul output.csv cu detalii despre dosarele din fisierul input" + Environment.NewLine +
+                "    Genereaza fisierele:" + Environment.NewLine +
+                "    * URI_dosare.csv - contine URL catre dosar instanta. folositi orice browser pentru a vedea detalii;" + Environment.NewLine +
+                "    * InformatiiGenerale.csv, Parti.csv, Sedinte.csv, CaiAtac.csv" +
+                " cu detalii despre dosarele din fisierul input. Pentri informatii complete folositi URL." + Environment.NewLine +
                 "    Fisierul input are pe fiecare linie numarul dosarului. ex:"+ Environment.NewLine + 
                 "    41738/94/2021" + Environment.NewLine + 
                 "    423/3/2021" + Environment.NewLine + 

@@ -59,6 +59,14 @@ namespace InformatiiDosare
         internal Dictionary<string, string> GetInformatiiDosar(string nrDosar, string uri)
         {
             Dictionary<string,string> infoDosar = new Dictionary<string,string>();
+            if(String.IsNullOrWhiteSpace(uri) || String.IsNullOrEmpty(uri)) 
+            {
+                infoDosar.Add("informatiiGenerale", nrDosar + ",");
+                infoDosar.Add("parti", nrDosar + ",");
+                infoDosar.Add("sedinte", nrDosar + ",");
+                infoDosar.Add("caiAtac", nrDosar + ",");
+                return infoDosar;
+            }
             HtmlWeb html = new HtmlWeb();
             HtmlDocument htmlDoc = html.Load(uri);
             foreach (HtmlNode node in htmlDoc.DocumentNode.SelectNodes("//a"))
