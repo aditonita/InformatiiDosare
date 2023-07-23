@@ -112,9 +112,19 @@ namespace InformatiiDosare
         {
             if (node != null)
             {
-                return value + "\"" + node.InnerText + "\"" + ",";
+                //return value + "\"" + node.InnerText + "\"" + ",";
+                return value + "\"" + ConvertSpecialCharsToAscii(node.InnerText) + "\"" + ",";
             }
             return value + ",";
+        }
+        private string ConvertSpecialCharsToAscii(string romanianChars)
+        {
+            string result = "";
+                result = romanianChars.Replace('ă', 'a').Replace('â', 'a').
+                    Replace('Ă', 'A').Replace('Â', 'A').Replace('î', 'i').Replace('Î', 'I').
+                    Replace('ș', 's').Replace('ş', 's').Replace('Ș', 'S').Replace('Ş', 'S').
+                    Replace('ț', 't').Replace('ţ', 't').Replace('Ț', 'T').Replace('Ţ', 'T');
+            return result;
         }
     }
 }
