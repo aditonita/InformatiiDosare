@@ -70,9 +70,11 @@ namespace InformatiiDosare
             }
             value = CurrentNodeValue(value, node.ParentNode.NextSibling.NextSibling.
                 SelectSingleNode("tr/td/div/table/tr/td/table/tr/td"));
+            //Console.WriteLine(value);
+            value = value + GetStandardDate(value) + ',';
             value = CurrentNodeValue(value, node.ParentNode.NextSibling.NextSibling.
                 SelectSingleNode("tr/td/div/table/tr/td/table/tr[2]/td"));
-            value = value.Replace("Ora estimata:", "\"").Replace("Complet:", ",\"").Replace("Tip solutie:", "\",\"").
+            value = value.Replace("Ora estimata:", "").Replace("Complet:", "\",\"").Replace("Tip solutie:", "\",\"").
                 Replace("Solutia pe scurt:", "\",\"").Replace("Document:","\",\"").Replace(Environment.NewLine,"").
                 Replace("&nbsp; "," ").Replace("\t", "");
             return value;
@@ -125,6 +127,11 @@ namespace InformatiiDosare
                     Replace('ș', 's').Replace('ş', 's').Replace('Ș', 'S').Replace('Ş', 'S').
                     Replace('ț', 't').Replace('ţ', 't').Replace('Ț', 'T').Replace('Ţ', 'T');
             return result;
+        }
+        private string GetStandardDate(string date)
+        {
+            return date = '"' + date.Split(',')[1].Substring(7, 4) + '.' + date.Split(',')[1].
+                Substring(4, 2) + '.' + date.Split(',')[1].Substring(1, 2) + '"';
         }
     }
 }
