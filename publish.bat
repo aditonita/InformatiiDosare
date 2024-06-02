@@ -1,0 +1,1 @@
+dotnet publish InformatiiDosare.sln -r win-x64 -p:PublishSingleFile=true --self-contained true --output C:\temp\4
