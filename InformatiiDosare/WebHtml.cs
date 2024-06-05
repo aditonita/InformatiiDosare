@@ -27,7 +27,7 @@ namespace InformatiiDosare
                     uriDosar = GetUriDosar(node);
                 }
             }
-            if(uriDosar.Length > 2)
+            if (uriDosar.Length > 2)
             {
                 uriDosar = "https://portal.just.ro" + uriDosar.Substring(2).Replace("&amp;", "&");
             }
@@ -56,20 +56,39 @@ namespace InformatiiDosare
             return valueAt;
         }
 
-        internal Dictionary<string, string> GetInformatiiDosar(string uri)
+        internal Dictionary<string, string> GetInformatiiDosar(string nrDosar, string uri)
         {
+            Dictionary<string,string> infoDosar = new Dictionary<string,string>();
+            if(String.IsNullOrWhiteSpace(uri) || String.IsNullOrEmpty(uri)) 
+            {
+                infoDosar.Add("informatiiGenerale", nrDosar + ",");
+                infoDosar.Add("parti", nrDosar + ",");
+                infoDosar.Add("sedinte", nrDosar + ",");
+                infoDosar.Add("caiAtac", nrDosar + ",");
+                return infoDosar;
+            }
             HtmlWeb html = new HtmlWeb();
             HtmlDocument htmlDoc = html.Load(uri);
-            foreach(HtmlNode node in htmlDoc.DocumentNode.SelectNodes("//a"))
+            foreach (HtmlNode node in htmlDoc.DocumentNode.SelectNodes("//a"))
             {
-                if (Tag.HasAttribute(node.GetAttributeValue("name",""), Tag.INFORMATII_GENERALE))
+                if (Tag.HasAttribute(node.GetAttributeValue("name", ""), Tag.INFORMATII_GENERALE))
                 {
-                    Console.Write(node.ParentNode.NextSibling.NextSibling.SelectSingleNode("tr/td/div/table/tr/td/table/tr/td/table/tr/td").InnerText);
-                    Console.Write(", ");
-                    Console.WriteLine(node.ParentNode.NextSibling.NextSibling.SelectSingleNode("tr/td/div/table/tr/td/table/tr/td/table/tr/td[2]").InnerText);
+                    infoDosar.Add("informatiiGenerale", new HtmlTransform().TableInformatiiGenerale(nrDosar, node));
+                }
+                if(Tag.HasAttribute(node.GetAttributeValue("name",""), Tag.PARTI))
+                {
+                    infoDosar.Add("parti", new HtmlTransform().TableParti(nrDosar, node));
+                }
+                if(Tag.HasAttribute(node.GetAttributeValue("name",""), Tag.SEDINTE))
+                {
+                    infoDosar.Add("sedinte", new HtmlTransform().TableSedinte(nrDosar, node));
+                }
+                if(Tag.HasAttribute(node.GetAttributeValue("name",""), Tag.CAI_ATAC))
+                {
+                    infoDosar.Add("caiAtac", new HtmlTransform().TableCaiAtac(nrDosar, node));
                 }
             }
-            throw new NotImplementedException();
+            return infoDosar;
         }
     }
 }
