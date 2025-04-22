@@ -1,7 +1,8 @@
 {
   "profiles": {
     "InformatiiDosare": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": " "
     }
   }
 }

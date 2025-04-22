@@ -16,6 +16,7 @@ namespace InformatiiDosare
             _args = args;  
             _arguments = new Dictionary<string, string>
             {
+                {"instanta", "--Instanta"},
                 { "nrDosar", "--NrDosar" },
                 { "idInstanta", "--IdInstanta" },
                 { "idDosar", "--IdDosar" },
@@ -39,6 +40,11 @@ namespace InformatiiDosare
             if(IsIdInstanta())
             {
                 WriteDosarInstantaUriAttributes();
+                return;
+            }
+            if (IsNumeInstanta()) 
+            {
+                WriteDosarNumeInstantaUriAttributes();
                 return;
             }
             throw new InvalidArgsException("[ERROR] - pentru ajutor rulati: InformatiiDosare.exe --help");
@@ -81,6 +87,35 @@ namespace InformatiiDosare
             }
             return hasInstanta && hasDosar;
         }
+        //
+        private bool IsNumeInstanta()
+        {
+            bool hasInstanta = false;
+            bool hasDosar = false;
+            bool hasNumeInstanta = false;
+            if (_args.Length != 5)
+            {
+                return false;
+            }
+            foreach (string arg in _args)
+            {
+                if (arg == _arguments["idInstanta"])
+                {
+                    hasInstanta = true;
+                }
+                if (arg == _arguments["idDosar"])
+                {
+                    hasDosar = true;
+                }
+                if(arg == _arguments["instanta"])
+                {
+                    hasNumeInstanta = true;
+                }
+            }
+            return hasInstanta && hasDosar && hasNumeInstanta;
+        }
+
+        //
         private bool IsHelp()
         {
             if(_args.Length != 1)
@@ -134,6 +169,10 @@ namespace InformatiiDosare
                 {
                     argsValue.Add("idInstanta", _args[i + 1]);
                 }
+                if (_args[i] == _arguments["instanta"])
+                {
+                    argsValue.Add("instanta", "true");
+                }
                 if (_args[i] == _arguments["idDosar"])
                 {
                     argsValue.Add("idDosar", _args[i + 1]);
@@ -149,7 +188,10 @@ namespace InformatiiDosare
         {
             Console.WriteLine(Tag.GetAttributName(GetArgsValue()["idInstanta"], GetArgsValue()["idDosar"]));
         }
-
+        private void WriteDosarNumeInstantaUriAttributes()
+        {
+            Console.WriteLine(Tag.GetAttributName(GetArgsValue()["idInstanta"], GetArgsValue()["idDosar"], GetArgsValue()["instanta"]));
+        }
         #endregion
     }
     [Serializable]

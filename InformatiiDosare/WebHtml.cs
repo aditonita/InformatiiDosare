@@ -65,6 +65,7 @@ namespace InformatiiDosare
                 infoDosar.Add("parti", nrDosar + ",");
                 infoDosar.Add("sedinte", nrDosar + ",");
                 infoDosar.Add("caiAtac", nrDosar + ",");
+                infoDosar.Add("instanta", nrDosar + ",");
                 return infoDosar;
             }
             HtmlWeb html = new HtmlWeb();
@@ -87,6 +88,12 @@ namespace InformatiiDosare
                 {
                     infoDosar.Add("caiAtac", new HtmlTransform().TableCaiAtac(nrDosar, node));
                 }
+                //
+                if (Tag.HasAttribute(node.GetAttributeValue("title", ""), Tag.PAGINA_PRINCIPALA))
+                {
+                    infoDosar.Add("instanta", new HtmlTransform().NumeInstanta(nrDosar, node));
+                }
+                //
             }
             return infoDosar;
         }

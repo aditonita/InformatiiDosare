@@ -55,13 +55,14 @@ namespace InformatiiDosare
             SaveDosarData(nrDosar + delim + uriDosar, output);
         }
 
-        internal static void RemoveFiles(string outputFile, string informatiiGenerale, string parti, string sedinte, string caiAtac)
+        internal static void RemoveFiles(string outputFile, string informatiiGenerale, string parti, string sedinte, string caiAtac, string instanta)
         {
             RemoveFile(outputFile);
             RemoveFile(informatiiGenerale);
             RemoveFile(parti);
             RemoveFile(sedinte);
             RemoveFile(caiAtac);
+            RemoveFile(instanta);
         }
 
         internal static void SaveInformatiiGenerale(string inFile, Dictionary<string, string> outFile, char delim)
@@ -70,6 +71,8 @@ namespace InformatiiDosare
             SaveDosarData(Tag.HEADER_PARTI, outFile["parti"]);
             SaveDosarData(Tag.HEADER_SEDINTE, outFile["sedinte"]);
             SaveDosarData(Tag.HEADER_CAI_ATAC, outFile["caiAtac"]);
+            SaveDosarData(Tag.HEADER_INSTANTA, outFile["instanta"]);
+
             using (StreamReader sr = new StreamReader(inFile))
             {
                 string? line;
@@ -83,6 +86,7 @@ namespace InformatiiDosare
                         SaveDosarData(getInformatiiDosar["parti"], outFile["parti"]);
                         SaveDosarData(getInformatiiDosar["sedinte"], outFile["sedinte"]);
                         SaveDosarData(getInformatiiDosar["caiAtac"], outFile["caiAtac"]);
+                        SaveDosarData(getInformatiiDosar["instanta"], outFile["instanta"]);
                     }
                 }
             }

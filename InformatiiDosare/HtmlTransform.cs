@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace InformatiiDosare
@@ -133,5 +134,19 @@ namespace InformatiiDosare
             return date = '"' + date.Split(',')[1].Substring(7, 4) + '.' + date.Split(',')[1].
                 Substring(4, 2) + '.' + date.Split(',')[1].Substring(1, 2) + '"';
         }
+        //
+        internal string NumeInstanta(string nrDosar, HtmlNode node)
+        {
+            string value = nrDosar + ",";
+
+            if (String.IsNullOrEmpty(node.ParentNode.InnerText))
+            {
+                return "";
+            }
+            value = Regex.Replace(CurrentNodeValue(value, node.ParentNode), @"\t|\n|\r", "");
+            return value;
+        }
+
+        //
     }
 }

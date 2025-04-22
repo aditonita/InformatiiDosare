@@ -18,12 +18,15 @@ string informatiiGenerale = "Informatii_generale.csv";
 string parti = "Parti.csv";
 string sedinte = "Sedinte.csv";
 string caiAtac = "Cai_atac.csv";
+string instanta = "Instanta.csv";
+
 Dictionary<string, string> outFiles = new Dictionary<string, string>()
 {
     { "informatiiGenerale" , informatiiGenerale },
     { "parti", parti },
     { "sedinte", sedinte },
-    { "caiAtac", caiAtac }
+    { "caiAtac", caiAtac },
+    { "instanta", instanta }
 };
 
 
@@ -35,7 +38,7 @@ if (args.Length == 0)
     {
         Environment.Exit(1);
     }
-    IODosar.RemoveFiles(outputFile, informatiiGenerale, parti, sedinte, caiAtac);
+    IODosar.RemoveFiles(outputFile, informatiiGenerale, parti, sedinte, caiAtac, instanta);
     if(!File.Exists(inputFile))
     {
         Console.WriteLine("[ERROR] - Fisierul " + inputFile + " nu exista. " +
