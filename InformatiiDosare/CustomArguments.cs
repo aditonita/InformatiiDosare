@@ -138,6 +138,7 @@ namespace InformatiiDosare
                 "InformatiiDosare.exe --help" + Environment.NewLine +
                 "InformatiiDosare.exe --NrDosar nnnn/tttt/yyyy" + Environment.NewLine +
                 "InformatiiDosare.exe --IdInstanta xxxxx --IdDosar yyyyyyyyyyyyyyy" + Environment.NewLine +
+                "InformatiiDosare.exe --IdInstanta xxxxx --IdDosar yyyyyyyyyyyyyyy --Instanta" + Environment.NewLine +
                 "1.  InformatiiDosare.exe" + Environment.NewLine +
                 "    Genereaza fisierele:" + Environment.NewLine +
                 "    * URI_dosare.csv - contine URL catre dosar instanta. folositi orice browser pentru a vedea detalii;" + Environment.NewLine +
@@ -149,8 +150,10 @@ namespace InformatiiDosare
                 "    5675/299/2023" + Environment.NewLine +
                 "2.  Argumente:" + Environment.NewLine +
                 "    --help: editeaza acest help" + Environment.NewLine +
-                "    --NrDosar 5675/299/2023: Afiseaza numele tag-urilor ca bytes din pagina https://portal.just.ro/SitePages/cautare.aspx?k=5675/299/2023" + Environment.NewLine +
-                "    --IdInstanta 299 --IdDosar 29900000000992959: Afiseaza numele tag-urilor ca bytes din pagina https://portal.just.ro/299/SitePages/Dosar.aspx?id_dosar=29900000000992959&id_inst=299" + Environment.NewLine;
+                "    --NrDosar 5675/299/2023: Afiseaza nume tag <Informatii dosar> ca bytes din pagina https://portal.just.ro/SitePages/cautare.aspx?k=5675/299/2023" + Environment.NewLine +
+                "    --IdInstanta 299 --IdDosar 29900000000992959: Afiseaza numele tag-urilor <Informatii generale>, <Sedinte>, <Cai atac>, <Parti>, <citare prin publicitate> ca bytes din pagina https://portal.just.ro/299/SitePages/Dosar.aspx?id_dosar=29900000000992959&id_inst=299" + Environment.NewLine +
+                "    --IdInstanta 299 --IdDosar 29900000000992959 --Instanta: Afiseaza nume tag <Pagina_principala> ca bytes din pagina " + 
+                "https://portal.just.ro/299/SitePages/Dosar.aspx?id_dosar=29900000000992959&id_inst=299" + Environment.NewLine;
             if(IsHelp())
             {
                 Console.WriteLine(message);
