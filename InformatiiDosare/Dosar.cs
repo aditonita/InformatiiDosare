@@ -58,10 +58,6 @@ namespace InformatiiDosare
             _parti = parti;
             _sedinte = sedinte;
         }
-
-        public Dosar()
-        {
-        }
     }
 
 }
