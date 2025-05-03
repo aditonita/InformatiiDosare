@@ -12,7 +12,7 @@ using System.Windows.Forms;
  * --help
 */
 
-MessageBox.Show("MY MESSAGE!!!");
+//MessageBox.Show("MY MESSAGE!!!");
 
 char delim = ',';
 string outputFile = "URI_dosare.csv";
