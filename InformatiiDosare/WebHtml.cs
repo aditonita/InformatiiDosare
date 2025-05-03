@@ -69,7 +69,7 @@ namespace InformatiiDosare
                 return infoDosar;
             }
             HtmlWeb html = new HtmlWeb();
-            HtmlDocument htmlDoc = html.Load(uri);
+            HtmlAgilityPack.HtmlDocument htmlDoc = html.Load(uri);
             foreach (HtmlNode node in htmlDoc.DocumentNode.SelectNodes("//a"))
             {
                 if (Tag.HasAttribute(node.GetAttributeValue("name", ""), Tag.INFORMATII_GENERALE))

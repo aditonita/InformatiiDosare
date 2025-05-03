@@ -3,6 +3,7 @@
 using InformatiiDosare;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Windows.Forms;
 
 /*arguments
  * --NrDosar
@@ -10,6 +11,8 @@ using System.Diagnostics.CodeAnalysis;
  * --IdDosar
  * --help
 */
+
+MessageBox.Show("MY MESSAGE!!!");
 
 char delim = ',';
 string outputFile = "URI_dosare.csv";
