@@ -8,46 +8,34 @@ using System.Threading.Tasks;
 
 namespace InformatiiDosare
 {
-    public enum TagName
-    {
-        TAG_NAME_SEDINTE,
-        TAG_NAME_INFORMATII_GENERALE,
-        TAG_NAME_CAI_ATAC
-    }
-    internal class Tag
+    internal class Utils
     {
         static IConfiguration config = new ConfigurationBuilder()
          .AddJsonFile(@"appsettings.json")
          .AddEnvironmentVariables()
          .Build();
+        #region Constants
         static readonly byte[] INFORMATII_DOSAR = config.GetSection("Informatii dosar").Get<byte[]>() ?? Array.Empty<byte>();
         public static readonly byte[] SEDINTE = config.GetSection("Sedinte").Get<byte[]>() ?? Array.Empty<byte>();
         public static readonly byte[] INFORMATII_GENERALE = config.GetSection("Informatii generale").Get<byte[]>() ?? Array.Empty<byte>();
         public static readonly byte[] CAI_ATAC = config.GetSection("Cai atac").Get<byte[]>() ?? Array.Empty<byte>();
         public static readonly byte[] PARTI = config.GetSection("Parti").Get<byte[]>() ?? Array.Empty<byte>();
-        //
         public static readonly byte[] PAGINA_PRINCIPALA = config.GetSection("Pagina_principala").Get<byte[]>() ?? Array.Empty<byte>();
-        //
         public static readonly string CAUTA_DOSAR = config.GetValue<string>("UriCautaDosar") ?? "";
         public static readonly string LISTEAZA_DOSAR = config.GetValue<string>("UriPortalJust") ?? "";
         public static readonly string HEADER_INFORMATII_GENERALE = config.GetValue<string>("Header Informatii generale") ?? "";
         public static readonly string HEADER_PARTI = config.GetValue<string>("Header Parti") ?? "";
         public static readonly string HEADER_SEDINTE = config.GetValue<string>("Header Sedinte") ?? "";
         public static readonly string HEADER_CAI_ATAC = config.GetValue<string>("Header Cai atac") ?? "";
-        public static readonly string HEADER_INSTANTA = config.GetValue<string>("Header Instanta") ?? "";
-        public static bool IsTagName(string name, TagName tagName)
-        {
-            switch (tagName)
-            {
-                case TagName.TAG_NAME_SEDINTE:
-                    return CheckTagName(name, Tag.SEDINTE);
-                case TagName.TAG_NAME_INFORMATII_GENERALE:
-                    return CheckTagName(name, Tag.INFORMATII_GENERALE);
-                case TagName.TAG_NAME_CAI_ATAC:
-                    return CheckTagName(name, Tag.CAI_ATAC);
-                default: return false;
-            }
-        }
+        public static readonly string INPUT_FILE = config.GetValue<string>("InputNrDosarFile") ?? "";
+        public static readonly string CAI_ATAC_FILE = config.GetSection("OutpuFiles").GetSection("CaiAtacFile").Value ?? "";
+        public static readonly string INFORMATII_GENERALE_FILE = config.GetSection("OutpuFiles").GetSection("InformatiiGeneraleFile").Value ?? "";
+        public static readonly string INSTANTA_FILE = config.GetSection("OutpuFiles").GetSection("InstantaFile").Value ?? "";
+        public static readonly string PARTI_FILE = config.GetSection("OutpuFiles").GetSection("PartiFile").Value ?? "";
+        public static readonly string SEDINTE_FILE = config.GetSection("OutpuFiles").GetSection("SedinteFile").Value ?? "";
+        public static readonly string URI_FILE = config.GetSection("OutpuFiles").GetSection("UriFile").Value ?? "";
+        public static readonly char CSV_DELIMITATOR = config.GetValue<char>("CsvDelimitator");
+        #endregion
         private static bool CheckTagName(string name, byte[] tagNameAsByte)
         {
             if (name != "" && name.Length == tagNameAsByte.Length)
@@ -70,15 +58,23 @@ namespace InformatiiDosare
 
         internal static string GetAttributName(string nrDosar)
         {
-            return new WebHtml().GetAttributesTitle(CAUTA_DOSAR + "k=" + nrDosar, "title");
+            return WebControler.GetAttributesTitle(CAUTA_DOSAR + "k=" + nrDosar, "title");
         }
         internal static string? GetAttributName(string idInstanta, string idDosar)
         {
-            return new WebHtml().GetAttributesTitle(LISTEAZA_DOSAR + "/" + idInstanta + "/SitePages/Dosar.aspx?" + "id_inst=" + idInstanta + "&id_dosar=" + idDosar, "name");
+            return WebControler.GetAttributesTitle(LISTEAZA_DOSAR + "/" + idInstanta + "/SitePages/Dosar.aspx?" + "id_inst=" + idInstanta + "&id_dosar=" + idDosar, "name");
         }
         internal static string? GetAttributName(string idInstanta, string idDosar, string instanta)
         {
-            return new WebHtml().GetAttributesTitle(LISTEAZA_DOSAR + "/" + idInstanta + "/SitePages/Dosar.aspx?" + "id_inst=" + idInstanta + "&id_dosar=" + idDosar, "title");
+            if (instanta == "true")
+            {
+                return WebControler.GetAttributesTitle(LISTEAZA_DOSAR + "/" + idInstanta + "/SitePages/Dosar.aspx?" + "id_inst=" + idInstanta + "&id_dosar=" + idDosar, "title");
+            }
+            if (instanta == "false")
+            {
+                return GetAttributName(idInstanta, idDosar);
+            }
+            throw new Exception("Argument --instanta poate fi true sau false");
         }
         internal static bool HasTitle(string titleName)
         {
@@ -109,6 +105,36 @@ namespace InformatiiDosare
                 }
             }
             return (result == attribute.Length);
+        }
+        public static DateOnly ConvertstringToDate(string date, string format)
+        {
+            throw new NotImplementedException();
+        }
+        public static TimeOnly ConvertstringToTime(string time, string format)
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
+        /// format date dd.mm.yyyy
+        /// </summary>
+        /// <param name="dateAsString"></param>
+        /// <returns>true</returns>
+        public static bool IsDateFormat(string dateAsString)
+        {
+            string[] date = dateAsString.Split(['.','/']);
+            if (dateAsString.Length != 10) { return false; }
+            if (date[0].Length != 2 && Int32.Parse(date[0]) > 31) { return false; }
+            if (date[1].Length != 2 && Int32.Parse(date[1]) > 12) { return false; }
+            if (date[2].Length != 4) { return false; }
+            return true;
+        }
+        public static string ConvertDateToString(DateOnly dateOnly)
+        {
+            string day = dateOnly.Day < 10 ? "0" + dateOnly.Day.ToString() : dateOnly.Day.ToString();
+            string month = dateOnly.Month < 10 ? "0" + dateOnly.Month.ToString() : dateOnly.Month.ToString();
+            string year = dateOnly.Year < 10 ? "0" + dateOnly.Year.ToString() : dateOnly.Year.ToString();
+
+            return day + "." + month + "." + year;
         }
     }
 }

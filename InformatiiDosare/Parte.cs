@@ -8,11 +8,11 @@ namespace InformatiiDosare
 {
     internal class Parte
     {
-        private String _nume;
-        private String _calitateParte;
-        public String GetNume { get { return _nume; } }
-        public String GetCalitateParte { get {  return _calitateParte; } } 
-        public Parte(String nume, String calitateParte)
+        private string _nume;
+        private string _calitateParte;
+        public string Nume { set { } get { return _nume; } }
+        public string CalitateParte { set { } get { return _calitateParte; } }
+        public Parte(string nume, string calitateParte)
         {
             _nume = nume;
             _calitateParte = calitateParte;

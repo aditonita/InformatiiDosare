@@ -5,65 +5,14 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows.Forms;
 
-/*arguments
- * --NrDosar
- * --IdInstanta
- * --IdDosar
- * --help
-*/
 
 //MessageBox.Show("MY MESSAGE!!!");
 
-char delim = ',';
-string outputFile = "URI_dosare.csv";
-string inputFile = "input.csv";
-string informatiiGenerale = "Informatii_generale.csv";
-string parti = "Parti.csv";
-string sedinte = "Sedinte.csv";
-string caiAtac = "Cai_atac.csv";
-string instanta = "Instanta.csv";
-
-Dictionary<string, string> outFiles = new Dictionary<string, string>()
-{
-    { "informatiiGenerale" , informatiiGenerale },
-    { "parti", parti },
-    { "sedinte", sedinte },
-    { "caiAtac", caiAtac },
-    { "instanta", instanta }
-};
-
-
 if (args.Length == 0)
 {
-    Console.WriteLine("Press y to contine [Y/N] or run InformatiiDosare.exe --help for help page");
-    string? KeyPress = Console.ReadLine()??"";
-    if (KeyPress.ToLower() != "y")
-    {
-        Environment.Exit(1);
-    }
-    IODosar.RemoveFiles(outputFile, informatiiGenerale, parti, sedinte, caiAtac, instanta);
-    if(!File.Exists(inputFile))
-    {
-        Console.WriteLine("[ERROR] - Fisierul " + inputFile + " nu exista. " +
-            "Creati fisierul inainte de a rula aplicatia. Fisierul contine pe fiecare line un numar de dosar. \nApasati orice tasta.");
-        Console.ReadKey();
-    }
-    IODosar.GetNrDosare(inputFile, outputFile, delim);
-    try
-    {
-        foreach (string dosarUri in IODosar.GetDosarURIs(outputFile, delim))
-        {
-            Console.WriteLine(dosarUri);
-        }
-        IODosar.SaveInformatiiGenerale(outputFile, outFiles, delim);
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine(ex.Message.ToString());
-    }
+    new Dosare().Start();
 }
 else
 {
-    new CustomArguments(args).WriteAtributeAsBytes();
-    Console.ReadKey();
+    CustomArguments.Start(args);
 }

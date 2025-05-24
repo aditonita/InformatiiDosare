@@ -10,18 +10,17 @@ namespace InformatiiDosare
     {
         private DateOnly _standardDate;
         private TimeOnly _oraEstimata;
-        private String _complet;
-        private String _tipSolutie;
-        private String _solutiePeScurt;
-        private String _document;
-        public DateOnly GetStandardDate => _standardDate; 
-        public TimeOnly GetOraEstimata => _oraEstimata;
-        public String GetComplet => _complet;
-        public String GetTipSolutie { get { return _tipSolutie; } }
-        public String GetSolutiePeScurt => _solutiePeScurt;
-        public String GetDocument => _document;
-
-        public Sedinta(String standardDate, String oraEstimata, String complet, String tipSolutie, String solutiePeScurt, String document)
+        private string _complet;
+        private string _tipSolutie;
+        private string _solutiePeScurt;
+        private string _document;
+        public DateOnly StandardDate { set { _standardDate = value; } get { return _standardDate; } }
+        public TimeOnly OraEstimata { set { _oraEstimata = value; } get { return _oraEstimata;} }
+        public string Complet { set { _complet = value; } get { return _complet; } }
+        public string TipSolutie { set { _tipSolutie = value; } get { return _tipSolutie; } }
+        public string SolutiePeScurt { set { _solutiePeScurt = value; } get { return _solutiePeScurt; }  }
+        public string Document { set { _document = value; } get { return _document; } }
+        public Sedinta(string standardDate, string oraEstimata, string complet, string tipSolutie, string solutiePeScurt, string document)
         {
             standardDate = standardDate.Trim();
             oraEstimata = oraEstimata.Trim();
@@ -29,14 +28,23 @@ namespace InformatiiDosare
             tipSolutie = tipSolutie.Trim();
             solutiePeScurt = solutiePeScurt.Trim();
             document = document.Trim();
-            _standardDate = new DateOnly(Int32.Parse(standardDate.Substring(0, 4)), Int32.Parse(standardDate.Substring(5, 2)), Int32.Parse(standardDate.Substring(8, 2)));
-            _oraEstimata = new TimeOnly(Int32.Parse(oraEstimata.Substring(0, 2)), Int32.Parse(oraEstimata.Substring(3, 2)));
+            if (Utils.IsDateFormat(standardDate)) 
+            {
+                string[] date = standardDate.Split(['.']);
+                _standardDate = new DateOnly(Int32.Parse(date[2].Trim()), 
+                    Int32.Parse(date[1].Trim()), Int32.Parse(date[0].Trim()));
+                string[] time = oraEstimata.Split([':']);
+                _oraEstimata = new TimeOnly(Int32.Parse(time[0].Trim()), Int32.Parse(time[1].Trim()));
+            }
+            else
+            {
+                _standardDate = new DateOnly();
+                _oraEstimata = new TimeOnly();
+            }
             _complet = complet;
             _tipSolutie = tipSolutie;
             _solutiePeScurt = solutiePeScurt;
             _document = document;
         }
-
-
     }
 }

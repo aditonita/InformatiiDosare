@@ -8,192 +8,173 @@ namespace InformatiiDosare
 {
     internal class CustomArguments
     {
-        Dictionary<string, string> _arguments;
-        string[] _args = Array.Empty<string>();
-        #region constructors
-        public CustomArguments(string[] args)
-        {
-            _args = args;  
-            _arguments = new Dictionary<string, string>
-            {
-                {"instanta", "--Instanta"},
-                { "nrDosar", "--NrDosar" },
-                { "idInstanta", "--IdInstanta" },
-                { "idDosar", "--IdDosar" },
-                { "help", "--help" }
-            };
-        }
-        #endregion
         #region public
-        public void WriteAtributeAsBytes()
+        public static void Start(string[] args)
         {
-            if (IsHelp())
+            if (IsHelp(args))
             {
-                WriteHelpMessage();
+                WriteHelpMessage(args);
                 return;
             }
-            if(IsNrDosar())
+            if (IsNrDosar(args))
             {
-                WritePortalUriAttributes();
+                WritePortalUriAttributes(args);
                 return;
             }
-            if(IsIdInstanta())
+            if (IsIdInstanta(args))
             {
-                WriteDosarInstantaUriAttributes();
+                WriteDosarInstantaUriAttributes(args);
                 return;
             }
-            if (IsNumeInstanta()) 
+            if (IsNumeInstanta(args))
             {
-                WriteDosarNumeInstantaUriAttributes();
+                WriteDosarNumeInstantaUriAttributes(args);
                 return;
             }
             throw new InvalidArgsException("[ERROR] - pentru ajutor rulati: InformatiiDosare.exe --help");
         }
         #endregion
         #region private
-        private bool IsNrDosar()
+        private static bool IsNrDosar(string[] args)
         {
-            if(_args.Length != 2)
+            if (args.Length != 2)
             {
                 return false;
             }
-            foreach(string arg in _args)
+            foreach (string arg in args)
             {
-                if(arg == _arguments["nrDosar"])
+                if (arg == "--nrDosar")
                 {
                     return true;
                 }
             }
             return false;
         }
-        private bool IsIdInstanta()
+        private static bool IsIdInstanta(string[] args)
         {
             bool hasInstanta = false;
             bool hasDosar = false;
-            if (_args.Length != 4)
+            if (args.Length != 4)
             {
                 return false;
             }
-            foreach(string arg in _args)
+            foreach (string arg in args)
             {
-                if(arg == _arguments["idInstanta"])
+                if (arg == "--idInstanta")
                 {
                     hasInstanta = true;
                 }
-                if(arg == _arguments["idDosar"])
+                if (arg == "--idDosar")
                 {
                     hasDosar = true;
                 }
             }
             return hasInstanta && hasDosar;
         }
-        //
-        private bool IsNumeInstanta()
+        private static bool IsNumeInstanta(string[] args)
         {
             bool hasInstanta = false;
             bool hasDosar = false;
             bool hasNumeInstanta = false;
-            if (_args.Length != 5)
+            if (args.Length != 6)
             {
                 return false;
             }
-            foreach (string arg in _args)
+            foreach (string arg in args)
             {
-                if (arg == _arguments["idInstanta"])
+                if (arg == "--idInstanta")
                 {
                     hasInstanta = true;
                 }
-                if (arg == _arguments["idDosar"])
+                if (arg == "--idDosar")
                 {
                     hasDosar = true;
                 }
-                if(arg == _arguments["instanta"])
+                if (arg == "--instanta")
                 {
                     hasNumeInstanta = true;
                 }
             }
             return hasInstanta && hasDosar && hasNumeInstanta;
         }
-
-        //
-        private bool IsHelp()
+        private static bool IsHelp(string[] args)
         {
-            if(_args.Length != 1)
+            if (args.Length != 1)
             {
                 return false;
             }
-            foreach (var arg in _args)
+            foreach (var arg in args)
             {
-                if (arg == _arguments["help"])
+                if (arg == "--help")
                 {
                     return true;
                 }
             }
             return false;
         }
-        private void WriteHelpMessage()
+        private static void WriteHelpMessage(string[] args)
         {
-            string message = 
+            string message =
                 "InformatiiDosare.exe" + Environment.NewLine +
                 "InformatiiDosare.exe --help" + Environment.NewLine +
-                "InformatiiDosare.exe --NrDosar nnnn/tttt/yyyy" + Environment.NewLine +
-                "InformatiiDosare.exe --IdInstanta xxxxx --IdDosar yyyyyyyyyyyyyyy" + Environment.NewLine +
-                "InformatiiDosare.exe --IdInstanta xxxxx --IdDosar yyyyyyyyyyyyyyy --Instanta" + Environment.NewLine +
+                "InformatiiDosare.exe --rnDosar nnnn/tttt/yyyy" + Environment.NewLine +
+                "InformatiiDosare.exe --idInstanta xxxxx --idDosar yyyyyyyyyyyyyyy" + Environment.NewLine +
+                "InformatiiDosare.exe --idInstanta xxxxx --idDosar yyyyyyyyyyyyyyy --instanta true/false" + Environment.NewLine +
                 "1.  InformatiiDosare.exe" + Environment.NewLine +
                 "    Genereaza fisierele:" + Environment.NewLine +
                 "    * URI_dosare.csv - contine URL catre dosar instanta. folositi orice browser pentru a vedea detalii;" + Environment.NewLine +
                 "    * InformatiiGenerale.csv, Parti.csv, Sedinte.csv, CaiAtac.csv" +
                 " cu detalii despre dosarele din fisierul input. Pentri informatii complete folositi URL." + Environment.NewLine +
-                "    Fisierul input are pe fiecare linie numarul dosarului. ex:"+ Environment.NewLine + 
-                "    41738/94/2021" + Environment.NewLine + 
-                "    423/3/2021" + Environment.NewLine + 
+                "    Fisierul input are pe fiecare linie numarul dosarului. ex:" + Environment.NewLine +
+                "    41738/94/2021" + Environment.NewLine +
+                "    423/3/2021" + Environment.NewLine +
                 "    5675/299/2023" + Environment.NewLine +
                 "2.  Argumente:" + Environment.NewLine +
                 "    --help: editeaza acest help" + Environment.NewLine +
-                "    --NrDosar 5675/299/2023: Afiseaza nume tag <Informatii dosar> ca bytes din pagina https://portal.just.ro/SitePages/cautare.aspx?k=5675/299/2023" + Environment.NewLine +
-                "    --IdInstanta 299 --IdDosar 29900000000992959: Afiseaza numele tag-urilor <Informatii generale>, <Sedinte>, <Cai atac>, <Parti>, <citare prin publicitate> ca bytes din pagina https://portal.just.ro/299/SitePages/Dosar.aspx?id_dosar=29900000000992959&id_inst=299" + Environment.NewLine +
-                "    --IdInstanta 299 --IdDosar 29900000000992959 --Instanta: Afiseaza nume tag <Pagina_principala> ca bytes din pagina " + 
+                "    --nrDosar 5675/299/2023: Afiseaza nume tag <Informatii dosar> ca bytes din pagina https://portal.just.ro/SitePages/cautare.aspx?k=5675/299/2023" + Environment.NewLine +
+                "    --idInstanta 299 --idDosar 29900000000992959: Afiseaza numele tag-urilor <Informatii generale>, <Sedinte>, <Cai atac>, <Parti>, <citare prin publicitate> ca bytes din pagina https://portal.just.ro/299/SitePages/Dosar.aspx?id_dosar=29900000000992959&id_inst=299" + Environment.NewLine +
+                "    --idInstanta 299 --idDosar 29900000000992959 --instanta true: Afiseaza nume tag <Pagina_principala> ca bytes din pagina " +
                 "https://portal.just.ro/299/SitePages/Dosar.aspx?id_dosar=29900000000992959&id_inst=299" + Environment.NewLine;
-            if(IsHelp())
+            if (IsHelp(args))
             {
                 Console.WriteLine(message);
             }
         }
-        private Dictionary<string, string> GetArgsValue()
+        private static string GetArgsValue(string[] args, string argName)
         {
-            Dictionary<string,string> argsValue = new Dictionary<string,string>();
-            for(int i = 0; i < _args.Length; i++)
+
+            for (int i = 0; i < args.Length; i++)
             {
-                if (_args[i] == _arguments["nrDosar"])
+                if (args[i] == argName)
                 {
-                    argsValue.Add("nrDosar", _args[i + 1]);
+                    return args[i + 1];
                 }
-                if (_args[i] == _arguments["idInstanta"])
+                if (args[i] == argName)
                 {
-                    argsValue.Add("idInstanta", _args[i + 1]);
+                    return args[i + 1];
                 }
-                if (_args[i] == _arguments["instanta"])
+                if (args[i] == argName)
                 {
-                    argsValue.Add("instanta", "true");
+                    return args[i + 1];
                 }
-                if (_args[i] == _arguments["idDosar"])
+                if (args[i] == argName)
                 {
-                    argsValue.Add("idDosar", _args[i + 1]);
+                    return args[i + 1];
                 }
             }
-            return argsValue;
+            return string.Empty;
         }
-        private void WritePortalUriAttributes()
+        private static void WritePortalUriAttributes(string[] args)
         {
-            Console.WriteLine(Tag.GetAttributName(GetArgsValue()["nrDosar"]));
+            Console.WriteLine(Utils.GetAttributName(GetArgsValue(args, "--nrDosar")));
         }
-        private void WriteDosarInstantaUriAttributes()
+        private static void WriteDosarInstantaUriAttributes(string[] args)
         {
-            Console.WriteLine(Tag.GetAttributName(GetArgsValue()["idInstanta"], GetArgsValue()["idDosar"]));
+            Console.WriteLine(Utils.GetAttributName(GetArgsValue(args, "--idInstanta"), GetArgsValue(args, "--idDosar")));
         }
-        private void WriteDosarNumeInstantaUriAttributes()
+        private static void WriteDosarNumeInstantaUriAttributes(string[] args)
         {
-            Console.WriteLine(Tag.GetAttributName(GetArgsValue()["idInstanta"], GetArgsValue()["idDosar"], GetArgsValue()["instanta"]));
+            Console.WriteLine(Utils.GetAttributName(GetArgsValue(args, "--idInstanta"), GetArgsValue(args, "--idDosar"), GetArgsValue(args, "--instanta")));
         }
         #endregion
     }
