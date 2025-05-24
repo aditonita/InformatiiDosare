@@ -67,8 +67,8 @@ namespace InformatiiDosare
                             SelectSingleNode("tr/td/div/table/tr/td/table/tr[" + i.ToString() + "]") == null)
                     {
                         Array.Resize(ref clienti, clienti.Length + 1);
-                        clienti[0] = new Parte(node.ParentNode.NextSibling.NextSibling
-                                     .SelectSingleNode("tr/td/div/table/tr/td/table").InnerText, "");
+                        clienti[0] = new Parte(ConvertSpecialCharsToAscii(node.ParentNode.NextSibling
+                            .NextSibling.SelectSingleNode("tr/td/div/table/tr/td/table").InnerText), "");
                         return clienti;
                     }
                         while (hasNextNode)
@@ -110,9 +110,9 @@ namespace InformatiiDosare
                         .GetDirectInnerText().Length > 0)
                     {
                         Array.Resize(ref lawsuit, lawsuit.Length + 1);
-                        lawsuit[0] = new Sedinta("", "", node.ParentNode.NextSibling.NextSibling
-                        .SelectSingleNode("tr/td/div/table/tr/td/table/tr/td")
-                        .GetDirectInnerText(), "", "", "");
+                        lawsuit[0] = new Sedinta("", "", ConvertSpecialCharsToAscii(node.ParentNode
+                            .NextSibling.NextSibling.SelectSingleNode("tr/td/div/table/tr/td/table/tr/td")
+                        .GetDirectInnerText()), "", "", "");
                         return lawsuit;
                     }
                     while (hasNextNode)
@@ -166,7 +166,8 @@ namespace InformatiiDosare
                     {
                         Array.Resize(ref recurs, recurs.Length + 1);
                         recurs[0] = new CaleAtac("",
-                            node.ParentNode.NextSibling.NextSibling.SelectSingleNode("tr/td/div/table/tr/td/table").InnerText, "");
+                            ConvertSpecialCharsToAscii(node.ParentNode.NextSibling.NextSibling
+                            .SelectSingleNode("tr/td/div/table/tr/td/table").InnerText), "");
                         return recurs;
                     }
                     while (hasNexNode)

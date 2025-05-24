@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace InformatiiDosare
 {
@@ -27,14 +28,16 @@ namespace InformatiiDosare
         public static readonly string HEADER_PARTI = config.GetValue<string>("Header Parti") ?? "";
         public static readonly string HEADER_SEDINTE = config.GetValue<string>("Header Sedinte") ?? "";
         public static readonly string HEADER_CAI_ATAC = config.GetValue<string>("Header Cai atac") ?? "";
+        public static readonly string HEADER_SITUATIE_LITIGII = config.GetValue<string>("Header Situatie_litigii") ?? "";
         public static readonly string INPUT_FILE = config.GetValue<string>("InputNrDosarFile") ?? "";
-        public static readonly string CAI_ATAC_FILE = config.GetSection("OutpuFiles").GetSection("CaiAtacFile").Value ?? "";
-        public static readonly string INFORMATII_GENERALE_FILE = config.GetSection("OutpuFiles").GetSection("InformatiiGeneraleFile").Value ?? "";
-        public static readonly string INSTANTA_FILE = config.GetSection("OutpuFiles").GetSection("InstantaFile").Value ?? "";
-        public static readonly string PARTI_FILE = config.GetSection("OutpuFiles").GetSection("PartiFile").Value ?? "";
-        public static readonly string SEDINTE_FILE = config.GetSection("OutpuFiles").GetSection("SedinteFile").Value ?? "";
-        public static readonly string URI_FILE = config.GetSection("OutpuFiles").GetSection("UriFile").Value ?? "";
+        public static readonly string CAI_ATAC_FILE = config.GetSection("OutputFiles").GetSection("CaiAtacFile").Value ?? "";
+        public static readonly string INFORMATII_GENERALE_FILE = config.GetSection("OutputFiles").GetSection("InformatiiGeneraleFile").Value ?? "";
+        public static readonly string INSTANTA_FILE = config.GetSection("OutputFiles").GetSection("InstantaFile").Value ?? "";
+        public static readonly string PARTI_FILE = config.GetSection("OutputFiles").GetSection("PartiFile").Value ?? "";
+        public static readonly string SEDINTE_FILE = config.GetSection("OutputFiles").GetSection("SedinteFile").Value ?? "";
+        public static readonly string URI_FILE = config.GetSection("OutputFiles").GetSection("UriFile").Value ?? "";
         public static readonly char CSV_DELIMITATOR = config.GetValue<char>("CsvDelimitator");
+        public static readonly string SITUATIE_LITIGII_FILE = config.GetSection("OutputFiles").GetSection("SituatieLitigii").Value ?? "";
         #endregion
         private static bool CheckTagName(string name, byte[] tagNameAsByte)
         {
