@@ -5,9 +5,6 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows.Forms;
 
-
-//MessageBox.Show("MY MESSAGE!!!");
-
 if (args.Length == 0)
 {
     new Dosare().Start();

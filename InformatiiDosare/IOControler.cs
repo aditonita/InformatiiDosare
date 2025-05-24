@@ -16,25 +16,6 @@ namespace InformatiiDosare
         {
             return File.ReadAllLines(Utils.INPUT_FILE);
         }
-        //public static Dictionary<string,string> GetDosarNumbers()
-        //{
-        //    Dictionary<string,string> dosarNumbers = new Dictionary<string,string>();
-        //    using (StreamReader sr = new StreamReader(Utils.INPUT_FILE))
-        //    {
-        //        string? line;
-        //        while ((line = sr.ReadLine()) != null)
-        //        {
-        //            string uri = SetUri.PortalURI(line);
-        //            List<string> linksDosar = new WebControler().GetInstanteUri(uri);
-        //            foreach (string linkDosar in linksDosar) 
-        //            {
-        //                IOControler.SaveUriDosare(line, linkDosar, Utils.URI_FILE, Utils.CSV_DELIMITATOR);
-        //                dosarNumbers.Add(uri, linkDosar);
-        //            }
-        //        }
-        //    }
-        //    return dosarNumbers;
-        //}
         private static void SaveDosarData(string line, string output)
         {
             using (StreamWriter sw = new StreamWriter(output, true))
@@ -53,7 +34,6 @@ namespace InformatiiDosare
                     uris.Add(line.Split(delim)[1]);
                 }
             }
-            //Console.WriteLine(uris);
             return uris;
         }
         private static void RemoveFile(string file)
@@ -84,9 +64,6 @@ namespace InformatiiDosare
             RemoveFile(Utils.CAI_ATAC_FILE);
             RemoveFile(Utils.INSTANTA_FILE);
         }
-        /// <summary>
-        /// to be removed
-        /// </summary>
         internal static void SaveDetaliiDosare(List<Dosar> dosare)
         {
             string linie = String.Empty;
@@ -151,25 +128,6 @@ namespace InformatiiDosare
                     }
                 }
             }
-
-            //            using (StreamReader sr = new StreamReader(Utils.URI_FILE))
-            //            {
-            //                string? line;
-            //                while ((line = sr.ReadLine()) != null)
-            //                {
-            //                    string[] cols = line.Split(new char[] { Utils.CSV_DELIMITATOR }, StringSplitOptions.RemoveEmptyEntries);
-            //                    Console.WriteLine(cols[0] + "; " + cols[1]);
-            //                    Dictionary<string, string>? getInformatiiDosar = new WebControler().Obsolete_GetInformatiiDosar(cols[0], cols[1]);
-            //                    if (getInformatiiDosar != null)
-            //                    {
-            //                        SaveDosarData(getInformatiiDosar["informatiiGenerale"], outFile["informatiiGenerale"]);
-            //                        SaveDosarData(getInformatiiDosar["parti"], outFile["parti"]);
-            //                        SaveDosarData(getInformatiiDosar["sedinte"], Utils.SEDINTE_FILE);
-            //                        SaveDosarData(getInformatiiDosar["caiAtac"], outFile["caiAtac"]);
-            //                        SaveDosarData(getInformatiiDosar["instanta"], outFile["instanta"]);
-            //                    }
-            //                }
-            //            }
         }
         internal static void DosareInLucru(List<Dosar> dosare)
         {

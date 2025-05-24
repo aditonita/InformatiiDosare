@@ -17,19 +17,9 @@ namespace InformatiiDosare
             _sedinte = new List<Sedinta>();
             foreach (Sedinta item in HtmlModel.TableSedinte(htmlDocument))
             {
-//                if (item.Length > 0)
-//                {
-//                    detaliiSedinta = item.Split(new char[] { Utils.CSV_DELIMITATOR }, StringSplitOptions.None);
                     _sedinte.Add(item);
-//                }
             }
         }
-                   
-        //public Sedinte AddSedinta(Sedinta sedinta)
-        //{
-        //    _sedinte.Add(sedinta);
-        //    return this;
-        //}
         public DateOnly MaxDateSession()
         {
             _sedinte.Sort((x, y) => y.StandardDate.CompareTo(x.StandardDate));

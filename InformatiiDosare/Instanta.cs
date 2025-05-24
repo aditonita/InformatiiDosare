@@ -32,9 +32,6 @@
         #endregion
         public Instanta(string idInstantaUri)
         {
-            //create HTML object and get:
-            //- instanta...
-            //-new Parti.AddParte(new Parte(html)....
             HtmlAgilityPack.HtmlDocument htmlDocument = WebControler.GetHtml(idInstantaUri);
             string[] informatiiGenerale = HtmlModel.TableInformatiiGenerale(htmlDocument);
             _numeInstanta = HtmlModel.NumeInstanta(htmlDocument);

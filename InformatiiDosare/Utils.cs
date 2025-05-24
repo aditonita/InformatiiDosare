@@ -106,14 +106,6 @@ namespace InformatiiDosare
             }
             return (result == attribute.Length);
         }
-        public static DateOnly ConvertstringToDate(string date, string format)
-        {
-            throw new NotImplementedException();
-        }
-        public static TimeOnly ConvertstringToTime(string time, string format)
-        {
-            throw new NotImplementedException();
-        }
         /// <summary>
         /// format date dd.mm.yyyy
         /// </summary>

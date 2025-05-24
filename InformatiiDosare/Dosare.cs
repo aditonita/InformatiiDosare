@@ -22,7 +22,6 @@ namespace InformatiiDosare
         private void AddDosar(Dosar dosar)
         {
             _dosare.Add(dosar);
-            //return this;
         }
 
         private List<Dosar> GetOrderDosarList()
@@ -55,8 +54,6 @@ namespace InformatiiDosare
             }
             foreach (string nrDosar in IOControler.GetDosarNumbers())
             {
-            //    Console.WriteLine(IOControler.GetDosarNumbers().Length);
-            //    Console.WriteLine(((contor / IOControler.GetDosarNumbers().Length) % 10).ToString());
                 string uriDosar = SetUri.PortalURI(nrDosar);
                 List<string> linksDosar = WebControler.GetInstanteUri(uriDosar);
                 Instante instante = new Instante();
@@ -68,11 +65,6 @@ namespace InformatiiDosare
                 AddDosar(new Dosar(nrDosar, instante));
                 contor++;
             }
-            //            this.GetOrderDosarList();
-            //            GetOrderDosarList();
-            //            new Dosare().GetOrderDosarList();
-            //            new Dosare().WorkforToday();
-            //IOControler.SaveDetaliiDosare();
             IOControler.SaveDetaliiDosare(this.GetOrderDosarList());
             IOControler.DosareInLucru(this.WorkforToday());
         }

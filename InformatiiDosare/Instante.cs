@@ -19,7 +19,6 @@
         public void AddInstanta(Instanta instanta)
         {
             _instante.Add(instanta);
-//            return this;
         }
         public DateOnly MaxDateInstanta()
         {

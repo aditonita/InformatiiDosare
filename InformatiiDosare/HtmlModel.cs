@@ -56,7 +56,6 @@ namespace InformatiiDosare
         internal static Parte[] TableParti(HtmlAgilityPack.HtmlDocument htmlDocument)
         {
             Parte[] clienti = new Parte[0];
-//            string value = "";
             int i = 2;
             bool hasNextNode = true;
             HtmlNode nextNode;
@@ -70,11 +69,6 @@ namespace InformatiiDosare
                         Array.Resize(ref clienti, clienti.Length + 1);
                         clienti[0] = new Parte(node.ParentNode.NextSibling.NextSibling
                                      .SelectSingleNode("tr/td/div/table/tr/td/table").InnerText, "");
-                        //return [node.ParentNode.NextSibling.NextSibling.
-                        //    SelectSingleNode("tr/td/div/table/tr/td/table").InnerText +
-                        //    Utils.CSV_DELIMITATOR +
-                        //    Utils.CSV_DELIMITATOR +
-                        //    Utils.CSV_DELIMITATOR];
                         return clienti;
                     }
                         while (hasNextNode)
@@ -85,22 +79,15 @@ namespace InformatiiDosare
                                 .SelectSingleNode("tr/td/div/table/tr/td/table/tr[" + i.ToString() + "]/td")),
                             CurrentNodeValue(node.ParentNode.NextSibling.NextSibling
                                 .SelectSingleNode("tr/td/div/table/tr/td/table/tr[" + i.ToString() + "]/td[2]")));
-                        //                    value = CurrentNodeValue(value, node.ParentNode.NextSibling.NextSibling.
-                        //SelectSingleNode("tr/td/div/table/tr/td/table/tr[" + i.ToString() + "]/td"));
-                        //                    value = CurrentNodeValue(value, node.ParentNode.NextSibling.NextSibling.
-                        //                        SelectSingleNode("tr/td/div/table/tr/td/table/tr[" + i.ToString() +"]/td[2]"));
-                        //                    value = value + Environment.NewLine;
                         nextNode = node.ParentNode.NextSibling.NextSibling
                             .SelectNodes("tr/td/div/table/tr/td/table/tr[" + i.ToString() + "]")
                             .ElementAt(0).NextSibling;
                         hasNextNode = (nextNode != null) && hasNextNode;
                         i++;
-                            //&& node.ParentNode.NextSibling.NextSibling.SelectSingleNode("tr/td/div/table/tr/td/table/tr[i]").HasChildNodes;
                     }
                 }
             }
             return clienti;
-            //return value.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
         }
         /// <summary>
         /// Get detalii sedinte by Dosar
@@ -109,7 +96,6 @@ namespace InformatiiDosare
         /// <returns>Data, Ora estimata, Complet, Tip solutie, Solutia pe scurt, Document</returns>
         internal static Sedinta[] TableSedinte(HtmlAgilityPack.HtmlDocument htmlDocument)
         {
-            //            string value = String.Empty;
             Sedinta[] lawsuit = new Sedinta[0];
             int i = 2;
             int j = 1;
@@ -147,28 +133,6 @@ namespace InformatiiDosare
                             SelectSingleNode("tr/td/div/table/tr/td/table/tr[" + j.ToString() + "]/td")),
                             detaliiSedinta[0], detaliiSedinta[1], detaliiSedinta[2], detaliiSedinta[3],
                             detaliiSedinta[4]);
-//                        value = CurrentNodeValue(value, node.ParentNode.NextSibling.NextSibling.
-//                            SelectSingleNode("tr/td/div/table/tr/td/table/tr[" + j.ToString() + "]/td"));
-                        //Console.WriteLine(node.ParentNode.NextSibling.NextSibling
-                        //    .SelectNodes("tr/td/div/table/tr/td/table/tr[51]").ElementAt(0).NextSibling == null);
-                        //Console.WriteLine(CurrentNodeValue("", node.ParentNode.NextSibling.NextSibling.SelectSingleNode("tr/td/div/table/tr/td/table/tr[3]")));
-                        //Console.WriteLine(CurrentNodeValue("", node.ParentNode.NextSibling.NextSibling.SelectSingleNode("tr/td/div/table/tr/td/table/tr[4]"))
-                        //    .Replace("Ora estimata:", "").Replace("Complet:", "\",\"").Replace("Tip solutie:", "\",\"").
-                        //    Replace("Solutia pe scurt:", "\",\"").Replace("Document:", "\",\"").Replace(Environment.NewLine, "").
-                        //    Replace("&nbsp; ", " ").Replace("\t", ""));
-                        //value = CurrentNodeValue(value, node.ParentNode.NextSibling.NextSibling.
-                        //    SelectSingleNode("tr/td/div/table/tr/td/table/tr[" + i.ToString() + "]/td"));
-                        //value = value.Replace("Ora estimata:", "").Replace("Complet:", Utils.CSV_DELIMITATOR.ToString())
-                        //    .Replace("Tip solutie:", Utils.CSV_DELIMITATOR.ToString())
-                        //    .Replace("Solutia pe scurt:", Utils.CSV_DELIMITATOR.ToString())
-                        //    .Replace("Document:", Utils.CSV_DELIMITATOR.ToString())
-                        //    .Replace(Environment.NewLine, "")
-                        //    .Replace("&nbsp; ", " ").Replace("\t", "");
-                        //value = value + (char)0x02;
-                        //Console.WriteLine(node.ParentNode.NextSibling.NextSibling.
-                        //    SelectSingleNode("tr/td/div/table/tr/td/table/tr[" + i.ToString() + "]").InnerText);
-
-
                         nextNode = node.ParentNode.NextSibling.NextSibling
                             .SelectNodes("tr/td/div/table/tr/td/table/tr[" + i.ToString() + "]").ElementAt(0).NextSibling;
                         hasNextNode = (nextNode != null) && hasNextNode;
@@ -203,12 +167,6 @@ namespace InformatiiDosare
                         Array.Resize(ref recurs, recurs.Length + 1);
                         recurs[0] = new CaleAtac("",
                             node.ParentNode.NextSibling.NextSibling.SelectSingleNode("tr/td/div/table/tr/td/table").InnerText, "");
-//                    return new CaleAtac[1] { new CaleAtac("",
-//                            node.ParentNode.NextSibling.NextSibling.SelectSingleNode("tr/td/div/table/tr/td/table").InnerText, "") };
-                        //return new string[]{ node.ParentNode.NextSibling.NextSibling.SelectSingleNode("tr/td/div/table/tr/td/table").InnerText + 
-                        //    Utils.CSV_DELIMITATOR +
-                        //    Utils.CSV_DELIMITATOR +
-                        //    Utils.CSV_DELIMITATOR };
                         return recurs;
                     }
                     while (hasNexNode)
@@ -223,13 +181,6 @@ namespace InformatiiDosare
                               CurrentNodeValue(node.ParentNode.NextSibling.NextSibling
                                 .SelectSingleNode("tr/td/div/table/tr/td/table/tr[" + i.ToString() + "]/td[3]"))
                               );
-                        //value = CurrentNodeValue(value, node.ParentNode.NextSibling.NextSibling.
-                        //    SelectSingleNode("tr/td/div/table/tr/td/table/tr[" + i.ToString() + "]/td"));
-                        //value = CurrentNodeValue(value, node.ParentNode.NextSibling.NextSibling.
-                        //    SelectSingleNode("tr/td/div/table/tr/td/table/tr[" + i.ToString() + "]/td[2]"));
-                        //value = CurrentNodeValue(value, node.ParentNode.NextSibling.NextSibling.
-                        //    SelectSingleNode("tr/td/div/table/tr/td/table/tr[" + i.ToString() + "]/td[3]"));
-                        //value = value + Environment.NewLine;
                         nextNode = node.ParentNode.NextSibling.NextSibling
                             .SelectNodes("tr/td/div/table/tr/td/table/tr[" + i.ToString() + "]").ElementAt(0).NextSibling;
                         hasNexNode = (nextNode != null) && hasNexNode;
@@ -238,7 +189,6 @@ namespace InformatiiDosare
                 }
             }
             return recurs;
-            //return value.Split([Environment.NewLine], StringSplitOptions.None);
         }
         private static string CurrentNodeValue(HtmlNode node)
         {
@@ -248,14 +198,6 @@ namespace InformatiiDosare
             }
             return "";
         }
-        //private static string CurrentNodeValue(string value, HtmlNode node)
-        //{
-        //    if (node != null)
-        //    {
-        //        return value + ConvertSpecialCharsToAscii(node.InnerText.Trim()) + Utils.CSV_DELIMITATOR;
-        //    }
-        //    return value;
-        //}
         private static string ConvertSpecialCharsToAscii(string romanianChars)
         {
             string result = "";
@@ -265,11 +207,6 @@ namespace InformatiiDosare
                 Replace('ț', 't').Replace('ţ', 't').Replace('Ț', 'T').Replace('Ţ', 'T');
             return result;
         }
-        //private string StandardDate(string date)
-        //{
-        //    return date = '"' + date.Split(',')[1].Substring(7, 4) + '.' + date.Split(',')[1].
-        //        Substring(4, 2) + '.' + date.Split(',')[1].Substring(1, 2) + '"';
-        //}
         /// <summary>
         /// get instanta by dosar
         /// </summary>
@@ -290,7 +227,5 @@ namespace InformatiiDosare
             }
             return value;
         }
-
-        //
     }
 }

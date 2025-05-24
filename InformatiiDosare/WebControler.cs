@@ -24,8 +24,6 @@ namespace InformatiiDosare
         {
             string uriDosar;
             List<string> instanteUri = new List<string>();
-            //            var html = new HtmlWeb();
-            //            var htmlDoc = html.Load(nrDosar);
             HtmlAgilityPack.HtmlDocument htmlDoc = GetHtml(nrDosar);
             foreach (HtmlNode node in htmlDoc.DocumentNode.SelectNodes("//a"))
             {
@@ -73,35 +71,5 @@ namespace InformatiiDosare
             HtmlWeb html = new HtmlWeb();
             return html.Load(uri);
         }
-
-
-        /// <summary>
-        /// creaza o metoda care intoarce doar pagina html >> HtmlAgilityPack.HtmlDocument
-        /// si metode seprate pentru CaiAtac,Sedinet,Parti,....
-        /// </summary>
-        /// <param name="nrDosar"></param>
-        /// <param name="uri"></param>
-        /// <returns></returns>
-        //internal Dictionary<string, string> Obsolete_GetInformatiiDosar(string nrDosar, string uri)
-        //{
-        //    Dictionary<string, string> infoDosar = new Dictionary<string, string>();
-        //    if (string.IsNullOrWhiteSpace(uri) || string.IsNullOrEmpty(uri))
-        //    {
-        //        infoDosar.Add("informatiiGenerale", nrDosar + ",");
-        //        infoDosar.Add("parti", nrDosar + ",");
-        //        infoDosar.Add("sedinte", nrDosar + ",");
-        //        infoDosar.Add("caiAtac", nrDosar + ",");
-        //        infoDosar.Add("instanta", nrDosar + ",");
-        //        return infoDosar;
-        //    }
-        //    HtmlWeb html = new HtmlWeb();
-        //    HtmlAgilityPack.HtmlDocument htmlDoc = html.Load(uri);
-        //    infoDosar.Add("sedinte", HtmlModel.TableSedinte(htmlDoc));
-        //    infoDosar.Add("parti", HtmlModel.TableParti(htmlDoc).ToString());
-        //    infoDosar.Add("caiAtac", HtmlModel.TableCaiAtac(htmlDoc).ToString());
-        //    infoDosar.Add("informatiiGenerale", HtmlModel.TableInformatiiGenerale(htmlDoc));
-        //    infoDosar.Add("instanta", HtmlModel.NumeInstanta(htmlDoc));
-        //    return infoDosar;
-        //}
     }
 }
