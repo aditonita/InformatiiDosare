@@ -69,6 +69,7 @@ namespace InformatiiDosare
         internal static HtmlAgilityPack.HtmlDocument GetHtml(string uri)
         {
             HtmlWeb html = new HtmlWeb();
+            html.Timeout = 20000;
             return html.Load(uri);
         }
     }
