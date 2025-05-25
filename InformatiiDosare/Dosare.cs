@@ -36,7 +36,8 @@ namespace InformatiiDosare
                 delegate (Dosar dosar)
                 {
                     DateTime today = DateTime.Now;
-                    return dosar.Instante.MaxDateInstanta() < new DateOnly(today.Year, today.Month, today.Day + 7) &&
+                    DateTime interval = today.AddDays(7);
+                    return dosar.Instante.MaxDateInstanta() < new DateOnly(interval.Year, interval.Month, interval.Day) &&
                            dosar.Instante.MaxDateInstanta() >= new DateOnly(today.Year, today.Month, today.Day);
                 }
                 );
@@ -63,6 +64,7 @@ namespace InformatiiDosare
                     instante.AddInstanta(new Instanta(linkDosar));
                 }
                 AddDosar(new Dosar(nrDosar, instante));
+                Utils.Progress(IOControler.GetDosarNumbers().Length, contor);
                 contor++;
             }
             IOControler.SaveDetaliiDosare(this.GetOrderDosarList());

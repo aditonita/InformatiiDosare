@@ -23,12 +23,20 @@
         public DateOnly MaxDateInstanta()
         {
             _instante.Sort((x, y) => y.Sedinte.MaxDateSession().CompareTo(x.Sedinte.MaxDateSession()));
-            return _instante[0].Sedinte.MaxDateSession();
+            if (_instante.Count > 0) 
+            {
+                return _instante[0].Sedinte.MaxDateSession();
+            }
+                return new DateOnly();
         }
         public Instanta InstantaByMaxDate()
         {
             _instante.Sort((x, y) => y.Sedinte.MaxDateSession().CompareTo(x.Sedinte.MaxDateSession()));
-            return _instante[0];
+            if (_instante.Count > 0)
+            {
+                return _instante[0];
+            }
+            return new Instanta("");
         }
     }
 }

@@ -131,5 +131,12 @@ namespace InformatiiDosare
 
             return day + "." + month + "." + year;
         }
+        public static void Progress(int length, int contor)
+        {
+            if ((contor * 1000 / length) % 5 == 0)
+            {
+                Console.WriteLine(((contor * 100 / length)).ToString() + " %");
+            }
+        }
     }
 }

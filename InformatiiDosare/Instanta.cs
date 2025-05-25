@@ -32,35 +32,38 @@
         #endregion
         public Instanta(string idInstantaUri)
         {
-            HtmlAgilityPack.HtmlDocument htmlDocument = WebControler.GetHtml(idInstantaUri);
-            string[] informatiiGenerale = HtmlModel.TableInformatiiGenerale(htmlDocument);
-            _numeInstanta = HtmlModel.NumeInstanta(htmlDocument);
-            _nrUnic = informatiiGenerale[0];
-            _uriDosar = idInstantaUri;
-            if (Utils.IsDateFormat(informatiiGenerale[1]))
+            if(idInstantaUri.Length > 0)
             {
-                string[] date = informatiiGenerale[1].Split(['.']);
-                _dataInregistrare = new DateOnly(Int32.Parse(date[2]), Int32.Parse(date[1]), Int32.Parse(date[0]));
-                if (Utils.IsDateFormat(informatiiGenerale[2]))
+                HtmlAgilityPack.HtmlDocument htmlDocument = WebControler.GetHtml(idInstantaUri);
+                string[] informatiiGenerale = HtmlModel.TableInformatiiGenerale(htmlDocument);
+                _numeInstanta = HtmlModel.NumeInstanta(htmlDocument);
+                _nrUnic = informatiiGenerale[0];
+                _uriDosar = idInstantaUri;
+                if (Utils.IsDateFormat(informatiiGenerale[1]))
                 {
-                    date = informatiiGenerale[2].Split(['.']);
-                    _dataUltimaModificare = new DateOnly(Int32.Parse(date[2]), Int32.Parse(date[1]), Int32.Parse(date[0]));
-                    _sectie = informatiiGenerale[3];
-                    _materie = informatiiGenerale[4];
-                    _obiect = informatiiGenerale[5];
-                    _stadiuProcesual = informatiiGenerale[6];
+                    string[] date = informatiiGenerale[1].Split(['.']);
+                    _dataInregistrare = new DateOnly(Int32.Parse(date[2]), Int32.Parse(date[1]), Int32.Parse(date[0]));
+                    if (Utils.IsDateFormat(informatiiGenerale[2]))
+                    {
+                        date = informatiiGenerale[2].Split(['.']);
+                        _dataUltimaModificare = new DateOnly(Int32.Parse(date[2]), Int32.Parse(date[1]), Int32.Parse(date[0]));
+                        _sectie = informatiiGenerale[3];
+                        _materie = informatiiGenerale[4];
+                        _obiect = informatiiGenerale[5];
+                        _stadiuProcesual = informatiiGenerale[6];
+                    }
                 }
+                else
+                {
+                    _dataInregistrare = new DateOnly();
+                    _dataInregistrare = new DateOnly();
+                    _sectie = informatiiGenerale[1] + informatiiGenerale[2];
+                    _materie = String.Empty; _obiect = String.Empty; _stadiuProcesual = String.Empty;
+                }
+                _caiAtac = new CaiAtac(htmlDocument);
+                _parti = new Parti(htmlDocument);
+                _sedinte = new Sedinte(htmlDocument);
             }
-            else
-            {
-                _dataInregistrare = new DateOnly();
-                _dataInregistrare = new DateOnly();
-                _sectie = informatiiGenerale[1] + informatiiGenerale[2];
-                _materie = String.Empty; _obiect = String.Empty; _stadiuProcesual = String.Empty;
-            }
-            _caiAtac = new CaiAtac(htmlDocument);
-            _parti = new Parti(htmlDocument);
-            _sedinte = new Sedinte(htmlDocument);
         }
     }
 }

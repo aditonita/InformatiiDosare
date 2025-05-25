@@ -130,20 +130,23 @@ namespace InformatiiDosare
                     }
                 }
                 Instanta lastInstanta = dosar.Instante.InstantaByMaxDate();
-                Sedinta lastSedinta = lastInstanta.Sedinte.SedintaByMaxDate();
-                linie = "\"" + dosar.NrDosar + "\"" + Utils.CSV_DELIMITATOR +
-                            "\"" + lastInstanta.NumeIstanta + "\"" + Utils.CSV_DELIMITATOR +
-                            "\"" + Utils.ConvertDateToString(lastSedinta.StandardDate) + "\"" +
-                            Utils.CSV_DELIMITATOR +
-                            "\"" + (lastSedinta.OraEstimata.Hour < 10 ? "0" + lastSedinta.OraEstimata.Hour.ToString() :
-                            lastSedinta.OraEstimata.Hour.ToString()) + ":"
-                            + (lastSedinta.OraEstimata.Minute < 10 ? "0" + lastSedinta.OraEstimata.Minute.ToString() :
-                            lastSedinta.OraEstimata.Minute.ToString())
-                            + "\"" + Utils.CSV_DELIMITATOR +
-                            "\"" + lastSedinta.Complet + "\"" + Utils.CSV_DELIMITATOR +
-                            "\"" + lastSedinta.TipSolutie + "\"" + Utils.CSV_DELIMITATOR +
-                            "\"" + lastSedinta.SolutiePeScurt + "\"" + Utils.CSV_DELIMITATOR +
-                            "\"" + lastSedinta.Document + "\"";
+                if (lastInstanta.Sedinte != null) 
+                {
+                    Sedinta lastSedinta = lastInstanta.Sedinte.SedintaByMaxDate();
+                    linie = "\"" + dosar.NrDosar + "\"" + Utils.CSV_DELIMITATOR +
+                                "\"" + lastInstanta.NumeIstanta + "\"" + Utils.CSV_DELIMITATOR +
+                                "\"" + Utils.ConvertDateToString(lastSedinta.StandardDate) + "\"" +
+                                Utils.CSV_DELIMITATOR +
+                                "\"" + (lastSedinta.OraEstimata.Hour < 10 ? "0" + lastSedinta.OraEstimata.Hour.ToString() :
+                                lastSedinta.OraEstimata.Hour.ToString()) + ":"
+                                + (lastSedinta.OraEstimata.Minute < 10 ? "0" + lastSedinta.OraEstimata.Minute.ToString() :
+                                lastSedinta.OraEstimata.Minute.ToString())
+                                + "\"" + Utils.CSV_DELIMITATOR +
+                                "\"" + lastSedinta.Complet + "\"" + Utils.CSV_DELIMITATOR +
+                                "\"" + lastSedinta.TipSolutie + "\"" + Utils.CSV_DELIMITATOR +
+                                "\"" + lastSedinta.SolutiePeScurt + "\"" + Utils.CSV_DELIMITATOR +
+                                "\"" + lastSedinta.Document + "\"";
+                }
                 SaveDosarData(linie, Utils.SITUATIE_LITIGII_FILE);
             }
         }
