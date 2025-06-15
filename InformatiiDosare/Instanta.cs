@@ -3,18 +3,18 @@
     internal class Instanta
     {
         #region parameters
-        private string _numeInstanta;
-        private string _nrUnic;
-        private string _uriDosar;
+        private string? _numeInstanta;
+        private string? _nrUnic;
+        private string? _uriDosar;
         private DateOnly _dataInregistrare;
         private DateOnly _dataUltimaModificare;
-        private string _sectie;
-        private string _materie;
-        private string _obiect;
-        private string _stadiuProcesual;
-        private CaiAtac _caiAtac;
-        private Parti _parti;
-        private Sedinte _sedinte;
+        private string? _sectie;
+        private string? _materie;
+        private string? _obiect;
+        private string? _stadiuProcesual;
+        private CaiAtac? _caiAtac;
+        private Parti? _parti;
+        private Sedinte? _sedinte;
         #endregion
         #region seter
         public string NumeIstanta { set { _numeInstanta = value; } get { return _numeInstanta; } }
@@ -34,9 +34,19 @@
         {
             if(idInstantaUri.Length > 0)
             {
-                HtmlAgilityPack.HtmlDocument htmlDocument = WebControler.GetHtml(idInstantaUri);
+                Task<HtmlAgilityPack.HtmlDocument>? htmlDocument = null;
+                try
+                {
+                    htmlDocument = WebControler.GetHtml(idInstantaUri);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("[ERROR]-{0};{1}",idInstantaUri, e);
+                    Console.WriteLine(e.Message);
+                }
+                
                 string[] informatiiGenerale = HtmlModel.TableInformatiiGenerale(htmlDocument);
-                _numeInstanta = HtmlModel.NumeInstanta(htmlDocument);
+                _numeInstanta = HtmlModel.NumeInstanta(htmlDocument.Result);
                 _nrUnic = informatiiGenerale[0];
                 _uriDosar = idInstantaUri;
                 if (Utils.IsDateFormat(informatiiGenerale[1]))
@@ -60,9 +70,9 @@
                     _sectie = informatiiGenerale[1] + informatiiGenerale[2];
                     _materie = String.Empty; _obiect = String.Empty; _stadiuProcesual = String.Empty;
                 }
-                _caiAtac = new CaiAtac(htmlDocument);
-                _parti = new Parti(htmlDocument);
-                _sedinte = new Sedinte(htmlDocument);
+                _caiAtac = new CaiAtac(htmlDocument.Result);
+                _parti = new Parti(htmlDocument.Result);
+                _sedinte = new Sedinte(htmlDocument.Result);
             }
         }
     }

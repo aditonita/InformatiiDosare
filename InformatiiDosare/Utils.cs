@@ -15,7 +15,8 @@ namespace InformatiiDosare
          .AddJsonFile(@"appsettings.json")
          .AddEnvironmentVariables()
          .Build();
-        #region Constants
+        #region Constants        
+        public static readonly int HTML_TIMEOUT = config.GetValue<Int32>("HtmlTimeout");
         static readonly byte[] INFORMATII_DOSAR = config.GetSection("Informatii dosar").Get<byte[]>() ?? Array.Empty<byte>();
         public static readonly byte[] SEDINTE = config.GetSection("Sedinte").Get<byte[]>() ?? Array.Empty<byte>();
         public static readonly byte[] INFORMATII_GENERALE = config.GetSection("Informatii generale").Get<byte[]>() ?? Array.Empty<byte>();
@@ -133,10 +134,8 @@ namespace InformatiiDosare
         }
         public static void Progress(int length, int contor)
         {
-            if ((contor * 1000 / length) % 5 == 0)
-            {
-                Console.WriteLine(((contor * 100 / length)).ToString() + " %");
-            }
+            int percent = (int)((double)contor / length * 100);
+                Console.WriteLine((percent).ToString() + " %");
         }
     }
 }

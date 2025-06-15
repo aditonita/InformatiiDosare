@@ -18,10 +18,10 @@ namespace InformatiiDosare
         /// </summary>
         /// <param name="htmlDoc"></param>
         /// <returns>NrUnic, DataInregistrarii, DataUltimeiModificari, Sectie, Materie, Obiect, Stadiu procesual</returns>
-        internal static string[] TableInformatiiGenerale(HtmlAgilityPack.HtmlDocument htmlDoc)
+        internal static string[] TableInformatiiGenerale(Task<HtmlAgilityPack.HtmlDocument> htmlDoc)
         {
             string[] value = new string[7];
-            foreach (HtmlNode node in htmlDoc.DocumentNode.SelectNodes("//a"))
+            foreach (HtmlNode node in htmlDoc.Result.DocumentNode.SelectNodes("//a"))
             {
                 if (Utils.HasAttribute(node.GetAttributeValue("name", ""), Utils.INFORMATII_GENERALE))
                 {

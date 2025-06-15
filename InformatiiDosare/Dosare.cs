@@ -19,10 +19,6 @@ namespace InformatiiDosare
         {
             _dosare = new List<Dosar>();
         }
-        private void AddDosar(Dosar dosar)
-        {
-            _dosare.Add(dosar);
-        }
 
         private List<Dosar> GetOrderDosarList()
         {
@@ -63,7 +59,8 @@ namespace InformatiiDosare
                     IOControler.SaveUriDosare(uriDosar, linkDosar, Utils.URI_FILE, Utils.CSV_DELIMITATOR);
                     instante.AddInstanta(new Instanta(linkDosar));
                 }
-                AddDosar(new Dosar(nrDosar, instante));
+                Task.Run(() => _dosare.Add(new Dosar(nrDosar, instante)));
+                //_dosare.Add(new Dosar(nrDosar, instante));
                 Utils.Progress(IOControler.GetDosarNumbers().Length, contor);
                 contor++;
             }

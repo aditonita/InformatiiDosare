@@ -24,19 +24,27 @@ namespace InformatiiDosare
         {
             string uriDosar;
             List<string> instanteUri = new List<string>();
-            HtmlAgilityPack.HtmlDocument htmlDoc = GetHtml(nrDosar);
-            foreach (HtmlNode node in htmlDoc.DocumentNode.SelectNodes("//a"))
+            try
             {
-                var titleName = node.GetAttributeValue("title", "");
-                if (Utils.HasTitle(titleName))
+                Task<HtmlAgilityPack.HtmlDocument> htmlDoc = GetHtml(nrDosar);
+                foreach (HtmlNode node in htmlDoc.Result.DocumentNode.SelectNodes("//a"))
                 {
-                    uriDosar = GetUriDosar(node);
-                    if (uriDosar.Length > 2)
+                    var titleName = node.GetAttributeValue("title", "");
+                    if (Utils.HasTitle(titleName))
                     {
-                        uriDosar = "https://portal.just.ro" + uriDosar.Substring(2).Replace("&amp;", "&");
+                        uriDosar = GetUriDosar(node);
+                        if (uriDosar.Length > 2)
+                        {
+                            uriDosar = "https://portal.just.ro" + uriDosar.Substring(2).Replace("&amp;", "&");
+                        }
+                        instanteUri.Add(uriDosar);
                     }
-                    instanteUri.Add(uriDosar);
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[ERROR]-{0};{1}",nrDosar,ex);
+                Console.WriteLine(ex.Message);
             }
             return instanteUri;
         }
@@ -66,11 +74,12 @@ namespace InformatiiDosare
         /// </summary>
         /// <param name="uri"></param>
         /// <returns>htmlDocument</returns>
-        internal static HtmlAgilityPack.HtmlDocument GetHtml(string uri)
+        internal static async Task<HtmlAgilityPack.HtmlDocument>  GetHtml(string uri)
         {
             HtmlWeb html = new HtmlWeb();
-            html.Timeout = 20000;
-            return html.Load(uri);
+            html.Timeout = Utils.HTML_TIMEOUT;
+            return await html.LoadFromWebAsync(uri);
+            //return html.Load(uri);
         }
     }
 }
