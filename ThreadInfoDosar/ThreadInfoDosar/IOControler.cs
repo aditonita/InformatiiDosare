@@ -2,44 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static System.Windows.Forms.LinkLabel;
 
 namespace InformatiiDosare
 {
     internal class IOControler
     {
-        /// <summary>
-        /// numere dosar din fisierul input.csv
-        /// </summary>
-        /// <returns>Array of Dosar number</returns> 
-        public static string[] GetDosarNumbers()
-        {
-            return File.ReadAllLines(Utils.INPUT_FILE);
-        }
-        private static void SaveDosarData(string line, string output)
+        private static void SaveLineAppend(string line, string output)
         {
             using (StreamWriter sw = new StreamWriter(output, true))
             {
                 sw.WriteLine(line);
             }
         }
-        internal static List<string> GetDosarURIs(string fileDosare, char delim)
-        {
-            List<string> uris = new();
-            using (StreamReader sr = new StreamReader(fileDosare))
-            {
-                string? line;
-                while ((line = sr.ReadLine()) != null)
-                {
-                    uris.Add(line.Split(delim)[1]);
-                }
-            }
-            return uris;
-        }
+        //        internal static List<string> GetDosarURIs(string fileDosare, char delim)
+        //        {
+        //            List<string> uris = new();
+        //            using (StreamReader sr = new StreamReader(fileDosare))
+        //            {
+        //                string? line;
+        //                while ((line = sr.ReadLine()) != null)
+        //                {
+        //                    uris.Add(line.Split(delim)[1]);
+        //                }
+        //            }
+        //            return uris;
+        //        }
         private static void RemoveFile(string file)
         {
             try { File.Delete(file); }
-            catch (IOException e) { Console.WriteLine(e); }
+            catch (IOException e)
+            {
+                IOControler.Logs(e.Message);
+                //Console.WriteLine(e); 
+            }
         }
         /// <summary>
         /// creaza fisier csv cu nrDosar si Link in portal.just.ro
@@ -50,30 +48,15 @@ namespace InformatiiDosare
         /// <param name="delim"></param>
         internal static void SaveUriDosare(string nrDosar, string uriDosar, string output, char delim)
         {
-            SaveDosarData(nrDosar + delim + uriDosar, output);
+            SaveLineAppend(nrDosar + delim + uriDosar, output);
         }
         /// <summary>
         /// Delete output csv files: Cai_atac.csv,Informatii_generale.csv,Instanta.csv,Parti.csv,Sedinte.csv,URI_dosare.csv
         /// </summary>
-        private static void RemoveFiles()
-        {
-            RemoveFile(Utils.URI_FILE);
-            RemoveFile(Utils.INFORMATII_GENERALE_FILE);
-            RemoveFile(Utils.PARTI_FILE);
-            RemoveFile(Utils.SEDINTE_FILE);
-            RemoveFile(Utils.CAI_ATAC_FILE);
-            RemoveFile(Utils.INSTANTA_FILE);
-            RemoveFile(Utils.SITUATIE_LITIGII_FILE);
-        }
-        internal static void SaveDetaliiDosare(List<Dosar> dosare)
+        internal static void SaveDetaliiDosare(string index, List<Dosar> dosare)
         {
             string linie = String.Empty;
-            RemoveFiles();
-            SaveDosarData(Utils.HEADER_INFORMATII_GENERALE, Utils.INFORMATII_GENERALE_FILE);
-            SaveDosarData(Utils.HEADER_PARTI, Utils.PARTI_FILE);
-            SaveDosarData(Utils.HEADER_SEDINTE, Utils.SEDINTE_FILE);
-            SaveDosarData(Utils.HEADER_CAI_ATAC, Utils.CAI_ATAC_FILE);
-            SaveDosarData(Utils.HEADER_SITUATIE_LITIGII, Utils.SITUATIE_LITIGII_FILE);
+            //RemoveFiles(index);
             foreach (Dosar dosar in dosare)
             {
                 foreach (Instanta instanta in dosar.Instante.ListaInstante)
@@ -91,7 +74,7 @@ namespace InformatiiDosare
                         "\"" + instanta.Materie + "\"" + Utils.CSV_DELIMITATOR +
                         "\"" + instanta.Obiect + "\"" + Utils.CSV_DELIMITATOR +
                         "\"" + instanta.StadiuProcesual + "\"";
-                    SaveDosarData(linie, Utils.INFORMATII_GENERALE_FILE);
+                    SaveLineAppend(linie, Utils.INFORMATII_GENERALE_FILE + index);
                     foreach (Parte parte in instanta.Parti.ListaParti)
                     {
                         //linie = String.Empty;
@@ -99,7 +82,7 @@ namespace InformatiiDosare
                             "\"" + instanta.NumeIstanta + "\"" + Utils.CSV_DELIMITATOR +
                             "\"" + parte.Nume + "\"" + Utils.CSV_DELIMITATOR +
                             "\"" + parte.CalitateParte + "\"";
-                        SaveDosarData(linie, Utils.PARTI_FILE);
+                        SaveLineAppend(linie, Utils.PARTI_FILE + index);
                     }
                     foreach (Sedinta sedinta in instanta.Sedinte.ListaSedinte)
                     {
@@ -116,7 +99,7 @@ namespace InformatiiDosare
                             "\"" + sedinta.TipSolutie + "\"" + Utils.CSV_DELIMITATOR +
                             "\"" + sedinta.SolutiePeScurt + "\"" + Utils.CSV_DELIMITATOR +
                             "\"" + sedinta.Document + "\"";
-                        SaveDosarData(linie, Utils.SEDINTE_FILE);
+                        SaveLineAppend(linie, Utils.SEDINTE_FILE + index);
                     }
                     foreach (CaleAtac caleAtac in instanta.CaiAtac.ListaCaiAtac)
                     {
@@ -126,11 +109,11 @@ namespace InformatiiDosare
                             "\"" + Utils.CSV_DELIMITATOR +
                             "\"" + caleAtac.ParteDeclaranta + "\"" + Utils.CSV_DELIMITATOR +
                             "\"" + caleAtac.Recurs + "\"";
-                        SaveDosarData(linie, Utils.CAI_ATAC_FILE);
+                        SaveLineAppend(linie, Utils.CAI_ATAC_FILE + index);
                     }
                 }
                 Instanta lastInstanta = dosar.Instante.InstantaByMaxDate();
-                if (lastInstanta.Sedinte != null) 
+                if (lastInstanta.Sedinte != null)
                 {
                     Sedinta lastSedinta = lastInstanta.Sedinte.SedintaByMaxDate();
                     linie = "\"" + dosar.NrDosar + "\"" + Utils.CSV_DELIMITATOR +
@@ -147,20 +130,24 @@ namespace InformatiiDosare
                                 "\"" + lastSedinta.SolutiePeScurt + "\"" + Utils.CSV_DELIMITATOR +
                                 "\"" + lastSedinta.Document + "\"";
                 }
-                SaveDosarData(linie, Utils.SITUATIE_LITIGII_FILE);
+                SaveLineAppend(linie, Utils.SITUATIE_LITIGII_FILE + index);
             }
         }
-        internal static void DosareInLucru(List<Dosar> dosare)
+        internal static void DosareInLucru(string index, List<Dosar> dosare)
         {
             string message = String.Empty;
             foreach (Dosar dosar in dosare)
             {
                 string nrDosar = dosar.NrDosar;
-                    string data = Utils.ConvertDateToString(dosar.Instante.InstantaByMaxDate()
-                        .Sedinte.SedintaByMaxDate().StandardDate);
+                string data = Utils.ConvertDateToString(dosar.Instante.InstantaByMaxDate()
+                    .Sedinte.SedintaByMaxDate().StandardDate);
                     message = message + data + " --- " + nrDosar + Environment.NewLine;
             }
-            MessageBox.Show(message);
+            SaveLineAppend(message, Utils.DOSARE_IN_LUCRU + index);
+        }
+        public static void Logs(String message)
+        {
+            SaveLineAppend(message, Utils.LOGS);
         }
     }
 }

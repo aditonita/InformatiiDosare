@@ -32,40 +32,32 @@ namespace InformatiiDosare
                 delegate (Dosar dosar)
                 {
                     DateTime today = DateTime.Now;
-                    DateTime interval = today.AddDays(7);
+                    DateTime interval = today.AddDays(Utils.FORECAST_DAYS);
                     return dosar.Instante.MaxDateInstanta() < new DateOnly(interval.Year, interval.Month, interval.Day) &&
                            dosar.Instante.MaxDateInstanta() >= new DateOnly(today.Year, today.Month, today.Day);
                 }
                 );
         }
-        internal void Start()
+        internal void Start(string index, string[] nrDosare)
         {
             int contor = 0;
-            if (!File.Exists(Utils.INPUT_FILE))
-            {
-                string exMessage = "[ERROR] - Fisierul " + Utils.INPUT_FILE + " nu exista. " +
-                       "Creati fisierul inainte de a rula aplicatia. " +
-                       "Fisierul contine pe fiecare line un numar dosar. \n" +
-                       "    - pentru ajutor rulati: InformatiiDosare.exe --help";
-                throw new Exception(exMessage);
-            }
-            foreach (string nrDosar in IOControler.GetDosarNumbers())
+            foreach (string nrDosar in nrDosare)
             {
                 string uriDosar = SetUri.PortalURI(nrDosar);
                 List<string> linksDosar = WebControler.GetInstanteUri(uriDosar);
                 Instante instante = new Instante();
                 foreach (string linkDosar in linksDosar)
                 {
-                    IOControler.SaveUriDosare(uriDosar, linkDosar, Utils.URI_FILE, Utils.CSV_DELIMITATOR);
+                    IOControler.SaveUriDosare(uriDosar, linkDosar, Utils.URI_FILE + index, Utils.CSV_DELIMITATOR);
                     instante.AddInstanta(new Instanta(linkDosar));
                 }
                 Task.Run(() => _dosare.Add(new Dosar(nrDosar, instante)));
                 //_dosare.Add(new Dosar(nrDosar, instante));
-                Utils.Progress(IOControler.GetDosarNumbers().Length, contor);
+                Utils.Progress(nrDosare.Length, contor);
                 contor++;
             }
-            IOControler.SaveDetaliiDosare(this.GetOrderDosarList());
-            IOControler.DosareInLucru(this.WorkforToday());
+            IOControler.SaveDetaliiDosare(index, this.GetOrderDosarList());
+            IOControler.DosareInLucru(index, this.WorkforToday());
         }
     }
 }

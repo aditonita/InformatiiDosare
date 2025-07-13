@@ -41,8 +41,9 @@
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("[ERROR]-{0};{1}",idInstantaUri, e);
-                    Console.WriteLine(e.Message);
+                    IOControler.Logs("[ERROR]-" + idInstantaUri + "\n" + e.Message);
+                    //Console.WriteLine("[ERROR]-{0};{1}",idInstantaUri, e);
+                    //Console.WriteLine(e.Message);
                 }
                 
                 string[] informatiiGenerale = HtmlModel.TableInformatiiGenerale(htmlDocument);

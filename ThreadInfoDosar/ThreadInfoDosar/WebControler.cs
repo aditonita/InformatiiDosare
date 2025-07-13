@@ -43,8 +43,9 @@ namespace InformatiiDosare
             }
             catch (Exception ex)
             {
-                Console.WriteLine("[ERROR]-{0};{1}",nrDosar,ex);
-                Console.WriteLine(ex.Message);
+                IOControler.Logs("[ERROR]-" + nrDosar + "\n" + ex.Message);
+                //Console.WriteLine("[ERROR]-{0};{1}",nrDosar,ex);
+                //Console.WriteLine(ex.Message);
             }
             return instanteUri;
         }

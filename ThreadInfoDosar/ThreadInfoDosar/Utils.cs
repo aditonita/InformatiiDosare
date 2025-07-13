@@ -30,7 +30,6 @@ namespace InformatiiDosare
         public static readonly string HEADER_SEDINTE = config.GetValue<string>("Header Sedinte") ?? "";
         public static readonly string HEADER_CAI_ATAC = config.GetValue<string>("Header Cai atac") ?? "";
         public static readonly string HEADER_SITUATIE_LITIGII = config.GetValue<string>("Header Situatie_litigii") ?? "";
-        public static readonly string INPUT_FILE = config.GetValue<string>("InputNrDosarFile") ?? "";
         public static readonly string CAI_ATAC_FILE = config.GetSection("OutputFiles").GetSection("CaiAtacFile").Value ?? "";
         public static readonly string INFORMATII_GENERALE_FILE = config.GetSection("OutputFiles").GetSection("InformatiiGeneraleFile").Value ?? "";
         public static readonly string INSTANTA_FILE = config.GetSection("OutputFiles").GetSection("InstantaFile").Value ?? "";
@@ -39,6 +38,9 @@ namespace InformatiiDosare
         public static readonly string URI_FILE = config.GetSection("OutputFiles").GetSection("UriFile").Value ?? "";
         public static readonly char CSV_DELIMITATOR = config.GetValue<char>("CsvDelimitator");
         public static readonly string SITUATIE_LITIGII_FILE = config.GetSection("OutputFiles").GetSection("SituatieLitigii").Value ?? "";
+        public static readonly string DOSARE_IN_LUCRU = config.GetSection("OutputFiles").GetSection("DosareInLucru").Value ?? "";
+        public static readonly string LOGS = config.GetSection("OutputFiles").GetSection("Logs").Value ?? "";
+        public static readonly int FORECAST_DAYS = config.GetValue<int>("ForecastDays");
         #endregion
         private static bool CheckTagName(string name, byte[] tagNameAsByte)
         {
