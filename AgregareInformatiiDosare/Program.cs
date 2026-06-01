@@ -8,6 +8,6 @@ using System.Windows.Forms;
 
 IOControler.RemoveFiles(Utils.APP_PATH);
 
-List<string[]> dosareinIterarie = new Dosar().GetDosareByIteration(Utils.DOSARE_IN_ITERATIE);
+List<string[]> dosareinIterarie = Dosar.GetDosareByIteration(Utils.DOSARE_IN_ITERATIE);
 
-new Dosar().RunInformatiiDosare(Utils.APP_PATH, dosareinIterarie);
+Dosar.RunInformatiiDosare(Utils.APP_PATH, dosareinIterarie);

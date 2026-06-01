@@ -12,7 +12,14 @@ namespace AgregareInformatiiDosare
 {
     internal class Dosar
     {
-        internal List<string[]> GetDosareByIteration(int dosareinIterarie)
+        private DateOnly _legalFileDate;
+        private string _legalFileNumber;
+
+        public Dosar(DateOnly legalFileDate,  string legalFileNumber)
+        {
+            _legalFileDate = legalFileDate; _legalFileNumber = legalFileNumber;
+        }
+        internal static List<string[]> GetDosareByIteration(int dosareinIterarie)
         {
             List<string[]> result = new List<string[]>();
             int k = 0;
@@ -30,7 +37,7 @@ namespace AgregareInformatiiDosare
             }
             return result;
         }
-        internal void RunInformatiiDosare(string appPath, List<string[]> dosareinIteratie)
+        internal static void RunInformatiiDosare(string appPath, List<string[]> dosareinIteratie)
         {
             int numThreads = dosareinIteratie.Count;
             ManualResetEvent resetEvent = new ManualResetEvent(false);
@@ -73,11 +80,28 @@ namespace AgregareInformatiiDosare
             AgregateResult(appPath);
             ShowFormDosareInLucru();
         }
-        private void ShowFormDosareInLucru()
+        private static void ShowFormDosareInLucru()
         {
-            MessageBox.Show(File.ReadAllText(Utils.DOSARE_IN_LUCRU + ".csv"));
+            List<Dosar> legalFileList = new List<Dosar>();
+            string message = "";
+            foreach (string line in File.ReadAllLines(Utils.DOSARE_IN_LUCRU + ".csv"))
+            {
+                string[] item = line.Split("---", StringSplitOptions.TrimEntries);
+                string[] date = item[0].Split(new char[] { '.' }, StringSplitOptions.None);
+                legalFileList.Add(new Dosar(
+                    new DateOnly(Int32.Parse(date[2]), Int32.Parse(date[1]), Int32.Parse(date[0])),
+                    item[1]));
+            }
+
+            legalFileList.Sort((x,y) => x._legalFileDate.CompareTo(y._legalFileDate));
+            foreach(Dosar item in legalFileList) 
+            {
+                message = message + item._legalFileDate.ToShortDateString() + "---" + item._legalFileNumber + Environment.NewLine;
+            }
+            //MessageBox.Show(File.ReadAllText(Utils.DOSARE_IN_LUCRU + ".csv"));
+            MessageBox.Show(message);
         }
-        private void AgregateResult(string appPath)
+        private static void AgregateResult(string appPath)
         {
             List<string> list = new List<string>();
             foreach (string filePattern in Utils.OUTPUT_FILES) 

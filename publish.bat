@@ -1,1 +1,1 @@
-dotnet publish InformatiiDosare.sln -r win-x64 -p:PublishSingleFile=true --self-contained true --output C:\temp\4
+dotnet publish AgregareInformatiiDosare.sln -r win-x64 -p:PublishSingleFile=true --self-contained true --output C:\FTP\InformatiiDosare1.1.3.4\AgregateInfoDosar
